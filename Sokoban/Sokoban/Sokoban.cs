@@ -7,15 +7,22 @@ namespace Sokoban
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class Sokoban : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D Texture { get; set; }
+        Storekeeper storekeeper;
+        Storehouse storehouse;
+        KeyboardController keyboardController;
 
-        public Game1()
+        public Sokoban()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 800;
+            IsMouseVisible = true;
         }
 
         /// <summary>
@@ -26,8 +33,9 @@ namespace Sokoban
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            // TODO: Add your initialization lo
+            
+            
             base.Initialize();
         }
 
@@ -39,8 +47,10 @@ namespace Sokoban
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            Texture = Content.Load<Texture2D>("background");
+            keyboardController = new KeyboardController();
+            storekeeper = new Storekeeper(Content.Load<Texture2D>("Player/player_05"), Vector2.Zero, 64);
+            
         }
 
         /// <summary>
@@ -61,7 +71,7 @@ namespace Sokoban
         {
             if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            keyboardController.KeyPressHandler(storekeeper);
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -73,9 +83,14 @@ namespace Sokoban
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            
+            spriteBatch.Draw(Texture, Vector2.Zero, Color.White);
+            storekeeper.Draw(gameTime, spriteBatch);
+            spriteBatch.End();
+
 
             base.Draw(gameTime);
         }
