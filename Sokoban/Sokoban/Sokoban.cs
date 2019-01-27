@@ -50,6 +50,7 @@ namespace Sokoban
             Texture = Content.Load<Texture2D>("background");
             keyboardController = new KeyboardController();
             storekeeper = new Storekeeper(Content.Load<Texture2D>("Player/player_05"), Point.Zero, 32);
+            storehouse = new Storehouse(30, 20, Content.Load<Texture2D>("Ground/ground_01"));
             
         }
 
@@ -88,6 +89,7 @@ namespace Sokoban
             spriteBatch.Begin();
 
             spriteBatch.Draw(Texture, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
+            storehouse.Draw(gameTime, spriteBatch);
             storekeeper.Draw(gameTime, spriteBatch);
             spriteBatch.End();
 

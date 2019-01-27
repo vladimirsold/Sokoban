@@ -12,7 +12,6 @@ namespace Sokoban
     class Storekeeper
     {
         public Texture2D Texture { get; set; }
-        public Action  Direction{get; set;}
         public int Offset { get; set; }
         private Rectangle position;
 
