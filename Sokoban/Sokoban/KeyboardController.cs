@@ -9,16 +9,16 @@ namespace Sokoban
 {
     class KeyboardController
     {
-        private Dictionary<Tuple<Keys, Direction>, bool> pressedKey;
+        private Dictionary<Tuple<Keys, Action>, bool> pressedKey;
 
         public KeyboardController()
         {
-            pressedKey = new Dictionary<Tuple<Keys, Direction>, bool>
+            pressedKey = new Dictionary<Tuple<Keys, Action>, bool>
             {
-                [new Tuple<Keys,Direction>(Keys.Left, Direction.Left)] = false,
-                [new Tuple<Keys, Direction>(Keys.Right, Direction.Right)] = false,
-                [new Tuple<Keys, Direction>(Keys.Up, Direction.Up)] = false,
-                [new Tuple<Keys, Direction>(Keys.Down, Direction.Down)] = false,
+                [new Tuple<Keys,Action>(Keys.Left, Action.Left)] = false,
+                [new Tuple<Keys, Action>(Keys.Right, Action.Right)] = false,
+                [new Tuple<Keys, Action>(Keys.Up, Action.Up)] = false,
+                [new Tuple<Keys, Action>(Keys.Down, Action.Down)] = false,
             };
         }
         public void KeyPressHandler(Storekeeper storekeeper)

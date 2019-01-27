@@ -20,8 +20,8 @@ namespace Sokoban
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferHeight = 600;
-            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 900;
+            graphics.PreferredBackBufferWidth = 1200;
             IsMouseVisible = true;
         }
 
@@ -49,7 +49,7 @@ namespace Sokoban
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Texture = Content.Load<Texture2D>("background");
             keyboardController = new KeyboardController();
-            storekeeper = new Storekeeper(Content.Load<Texture2D>("Player/player_05"), Vector2.Zero, 64);
+            storekeeper = new Storekeeper(Content.Load<Texture2D>("Player/player_05"), Point.Zero, 32);
             
         }
 
@@ -86,8 +86,8 @@ namespace Sokoban
             GraphicsDevice.Clear(Color.White);
 
             spriteBatch.Begin();
-            
-            spriteBatch.Draw(Texture, Vector2.Zero, Color.White);
+
+            spriteBatch.Draw(Texture, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
             storekeeper.Draw(gameTime, spriteBatch);
             spriteBatch.End();
 

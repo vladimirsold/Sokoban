@@ -12,11 +12,11 @@ namespace Sokoban
     class Storekeeper
     {
         public Texture2D Texture { get; set; }
-        public Direction  Direction{get; set;}
+        public Action  Direction{get; set;}
         public int Offset { get; set; }
-        private Vector2 position;
+        private Rectangle position;
 
-        public Vector2 Position
+        public Rectangle Position
         {
             get
             {
@@ -28,7 +28,7 @@ namespace Sokoban
             }
         }
 
-        public float X
+        public int X
         {
             get
             {
@@ -36,11 +36,14 @@ namespace Sokoban
             }
             set
             {
-                position.X = value;
+                if(value > 0 && value < 1200)
+                {
+                    position.X = value;
+                }
             }
         }
 
-        public float Y
+        public int Y
         {
             get
             {
@@ -48,15 +51,18 @@ namespace Sokoban
             }
             set
             {
-                position.Y = value;
+                if(value > 0 && value < 900)
+                {
+                    position.Y = value;
+                }
             }
         }
 
-        public Storekeeper(Texture2D texture, Vector2 position, int offset)
+        public Storekeeper(Texture2D texture, Point position, int size)
         {
             Texture = texture;
-            this.position = position;
-            Offset = offset;
+            this.position = new Rectangle(position.X, position.Y, size, size);
+            Offset = size;
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -64,20 +70,20 @@ namespace Sokoban
             spriteBatch.Draw(Texture, position, Color.White);
         }
 
-        public void Move(Direction direction)
+        public void Move(Action direction)
         {
             switch(direction)
             {
-                case Direction.Left:
+                case Action.Left:
                     X -= Offset;
                     break;
-                case Direction.Up:
+                case Action.Up:
                     Y -= Offset;
                     break;
-                case Direction.Right:
+                case Action.Right:
                     X += Offset;
                     break;
-                case Direction.Down:
+                case Action.Down:
                     Y += Offset;
                     break;
                 default:

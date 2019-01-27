@@ -41,7 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Direction.cs" />
+    <Compile Include="Action.cs" />
     <Compile Include="KeyboardController.cs" />
     <Compile Include="Sokoban.cs" />
     <Compile Include="Program.cs" />
