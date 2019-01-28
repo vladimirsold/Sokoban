@@ -1,4 +1,18 @@
 *************************************
+Maze: 0
+File offset: 148C, DS:00FC, table offset: 0000
+Size X: 5
+Size Y: 5
+End: 14BD
+Length: 50
+           
+XXXXXXXXXX          
+X        X           
+X  @ ** .X 
+X        X
+XXXXXXXXXX   
+     
+*************************************
 Maze: 1
 File offset: 148C, DS:00FC, table offset: 0000
 Size X: 22

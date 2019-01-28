@@ -18,7 +18,6 @@ namespace Sokoban
             bool result = false;
             switch(action)
             {
-
                 case Action.Left:
                     if(X - Model.FieldSellSize == gameObject.X && Y == gameObject.Y)
                         result = true;

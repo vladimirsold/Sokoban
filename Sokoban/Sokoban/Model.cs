@@ -12,10 +12,10 @@ namespace Sokoban
     class Model
     {
         public const int FieldSellSize = 32;
-        private IEventListener eventListener;
         public int CurrentLevel { get; private set; }
         public GameObjects GameObjects { get; private set; }
         private LevelLoader levelLoader;
+
         Dictionary<string, Texture2D> textureBlocks;
 
         public Model()
@@ -23,11 +23,6 @@ namespace Sokoban
             DirectoryInfo dir = new DirectoryInfo(".");
             levelLoader = new LevelLoader(dir.FullName + "\\Content\\Level.txt");
             CurrentLevel = 0;
-        }
-
-        public void SetEventListener(IEventListener eventListener)
-        {
-            this.eventListener = eventListener;
         }
 
         public void LoadLevel(int level)
@@ -55,11 +50,11 @@ namespace Sokoban
         {
             Player player = GameObjects.Player;
 
-            if(CheckWallCollision(player, action))
+            if(IsWallCollision(player, action))
             {
                 return;
             }
-            if(CheckBoxCollision(action))
+            if(IsBoxCollision(action))
             {
                 return;
             }
@@ -77,8 +72,7 @@ namespace Sokoban
                 case Action.Down:
                     player.Move(0, FieldSellSize);
                     break;
-            }
-            CheckCompletion();
+            }     
         }
 
         public void LoadTextureBlocks(Dictionary<string, Texture2D> textureBlocks)
@@ -86,7 +80,7 @@ namespace Sokoban
             this.textureBlocks = textureBlocks;  
         }
 
-        public bool CheckWallCollision(CollisionObject gameObject, Action action)
+        public bool IsWallCollision(CollisionObject gameObject, Action action)
         {
             foreach(Wall wall in GameObjects.Walls)
             {
@@ -99,7 +93,7 @@ namespace Sokoban
             return false;
         }
 
-        public bool CheckBoxCollision(Action action)
+        public bool IsBoxCollision(Action action)
         { //проверяет столкновение с ящиками + передвижение
             Player player = GameObjects.Player;
 
@@ -120,7 +114,7 @@ namespace Sokoban
             if(stoped is Box)
             {
                 Box stopedBox = (Box)stoped;
-                if(CheckWallCollision(stopedBox, action))
+                if(IsWallCollision(stopedBox, action))
                 {
                     return true;
                 }
@@ -153,26 +147,34 @@ namespace Sokoban
 
         }
 
-        public void CheckCompletion()
-        { //проверяет пройден ли уровень (на всех ли домах стоят ящики, их координаты должны совпадать)
-            bool yes = true;
-
+        public bool IsLevelCompleted()
+        {            
             foreach(CellForBox cell in GameObjects.Cells)
             {
-                bool currentYes = false;
+                bool boxInSell = false;
 
                 foreach(Box box in GameObjects.Boxes)
                 {
                     if((box.X == cell.X) && (box.Y == cell.Y))
-                        currentYes = true;
+                    {
+                        boxInSell = true;
+                    }
                 }
-
-                if(!currentYes)
-                    yes = false;
+                if(!boxInSell)
+                {
+                    return false;
+                }
             }
-
-            if(yes)
-                eventListener.LevelCompleted(CurrentLevel);
+            return true;
         }
+
+        public void Update()
+        {
+            if(IsLevelCompleted())
+            {
+                StartNextLevel();
+            }
+        }
+
     }
 }

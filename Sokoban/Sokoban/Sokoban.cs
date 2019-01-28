@@ -17,12 +17,11 @@ namespace Sokoban
         View view;
         Dictionary<string, Texture2D> textureBlocks;
         KeyboardController keyboardController;
-
+        Model model;
         public Sokoban()
         {
             graphics = new GraphicsDeviceManager(this);
-            controller = new Controller();
-            view = controller.GetView();
+            model = new Model();
             IsMouseVisible = true;
             
         }
@@ -38,6 +37,7 @@ namespace Sokoban
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferHeight = 900;
             graphics.PreferredBackBufferWidth = 1200;
+            graphics.IsFullScreen = true;
             keyboardController = new KeyboardController();
             base.Initialize();
         }
@@ -51,13 +51,20 @@ namespace Sokoban
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Texture = Content.Load<Texture2D>("background");
-            textureBlocks = new Dictionary<string, Texture2D>();
-            textureBlocks["Wall"] = Content.Load<Texture2D>("Blocks/block_05");
-            textureBlocks["Player"] = Content.Load<Texture2D>("Player/player_05");
-            textureBlocks["Box"] = Content.Load<Texture2D>("Crates/crate_09");
-            textureBlocks["CellForBox"] = Content.Load<Texture2D>("Crates/crate_29");
-            controller.LoadTextures(textureBlocks);
-          
+            textureBlocks = new Dictionary<string, Texture2D>
+            {
+                ["Wall"] = Content.Load<Texture2D>("Blocks/block_05"),
+                ["Player"] = Content.Load<Texture2D>("Player/player_05"),
+                ["Box"] = Content.Load<Texture2D>("Crates/crate_09"),
+                ["CellForBox"] = Content.Load<Texture2D>("Crates/crate_29")
+            };
+            model.LoadTextureBlocks(textureBlocks);
+            //controller.LoadTextures(textureBlocks);
+            model.LoadLevel(0);
+            view = new View(model);
+            model.LoadTextureBlocks(textureBlocks);
+            controller = new Controller(model);
+
         }
 
         /// <summary>
@@ -80,7 +87,7 @@ namespace Sokoban
             if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             keyboardController.KeyPressHandler(controller);
-           
+            model.Update();
 
             base.Update(gameTime);
         }

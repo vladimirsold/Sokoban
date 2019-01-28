@@ -49,7 +49,6 @@
     <Compile Include="Field.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjects.cs" />
-    <Compile Include="IEventListener.cs" />
     <Compile Include="IMovable.cs" />
     <Compile Include="KeyboardController.cs" />
     <Compile Include="LevelLoader.cs" />
