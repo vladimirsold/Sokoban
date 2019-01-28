@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Sokoban
 {
@@ -12,17 +13,18 @@ namespace Sokoban
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D Texture { get; set; }
-        Storekeeper storekeeper;
-        Storehouse storehouse;
+        Controller controller;
+        View view;
+        Dictionary<string, Texture2D> textureBlocks;
         KeyboardController keyboardController;
 
         public Sokoban()
         {
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferHeight = 900;
-            graphics.PreferredBackBufferWidth = 1200;
+            controller = new Controller();
+            view = controller.GetView();
             IsMouseVisible = true;
+            
         }
 
         /// <summary>
@@ -33,9 +35,10 @@ namespace Sokoban
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization lo
-            
-            
+            Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferHeight = 900;
+            graphics.PreferredBackBufferWidth = 1200;
+            keyboardController = new KeyboardController();
             base.Initialize();
         }
 
@@ -48,10 +51,13 @@ namespace Sokoban
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Texture = Content.Load<Texture2D>("background");
-            keyboardController = new KeyboardController();
-            storekeeper = new Storekeeper(Content.Load<Texture2D>("Player/player_05"), Point.Zero, 32);
-            storehouse = new Storehouse(30, 20, Content.Load<Texture2D>("Ground/ground_01"));
-            
+            textureBlocks = new Dictionary<string, Texture2D>();
+            textureBlocks["Wall"] = Content.Load<Texture2D>("Blocks/block_05");
+            textureBlocks["Player"] = Content.Load<Texture2D>("Player/player_05");
+            textureBlocks["Box"] = Content.Load<Texture2D>("Crates/crate_09");
+            textureBlocks["CellForBox"] = Content.Load<Texture2D>("Crates/crate_29");
+            controller.LoadTextures(textureBlocks);
+          
         }
 
         /// <summary>
@@ -60,8 +66,9 @@ namespace Sokoban
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            
         }
+
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -72,8 +79,8 @@ namespace Sokoban
         {
             if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            keyboardController.KeyPressHandler(storekeeper);
-            // TODO: Add your update logic here
+            keyboardController.KeyPressHandler(controller);
+           
 
             base.Update(gameTime);
         }
@@ -85,15 +92,10 @@ namespace Sokoban
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.White);
-
             spriteBatch.Begin();
-
             spriteBatch.Draw(Texture, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
-            storehouse.Draw(gameTime, spriteBatch);
-            storekeeper.Draw(gameTime, spriteBatch);
+            view.Draw(spriteBatch);
             spriteBatch.End();
-
-
             base.Draw(gameTime);
         }
     }

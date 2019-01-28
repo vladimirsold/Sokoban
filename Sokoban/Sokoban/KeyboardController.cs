@@ -21,14 +21,14 @@ namespace Sokoban
                 [new Tuple<Keys, Action>(Keys.Down, Action.Down)] = false,
             };
         }
-        public void KeyPressHandler(Storekeeper storekeeper)
+        public void KeyPressHandler(Controller controller)
         {
             foreach(var key in pressedKey.Keys.ToList())
             {
                 if(Keyboard.GetState().IsKeyDown(key.Item1) && !pressedKey[key])
                 {
                     pressedKey[key] = true;
-                    storekeeper.Move(key.Item2);
+                    controller.Move(key.Item2);
                 }
                 if(Keyboard.GetState().IsKeyUp(key.Item1))
                 {
