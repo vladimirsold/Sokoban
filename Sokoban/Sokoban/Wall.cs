@@ -9,6 +9,9 @@ namespace Sokoban
 {
     class Wall : CollisionObject
     {
-        public Wall(int x, int y) : base(x, y) { }
+        public Wall(int x, int y) : base(x, y)
+        {
+            Texture = "Wall";
+        }
     }
 }

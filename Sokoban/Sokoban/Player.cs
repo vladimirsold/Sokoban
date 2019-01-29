@@ -9,12 +9,28 @@ namespace Sokoban
 {
     class Player : CollisionObject, IMovable
     {
-        public Player(int x, int y) : base(x, y) { }
-
-        public void Move(int x, int y)
+        public Player(int x, int y) : base(x, y)
         {
-            X += x;
-            Y += y;
+            Texture = "PlayerFront";
+        }
+
+        public void Move(Direction direction)
+        {
+            switch(direction)
+            {
+                case Direction.Left:
+                    --X;
+                    break;
+                case Direction.Right:
+                    ++X;
+                    break;
+                case Direction.Up:
+                    --Y;
+                    break;
+                case Direction.Down:
+                    ++Y;
+                    break;
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Sokoban
             this.model = model;
         }     
 
-        public void Move(Action action)
+        public void Move(Direction action)
         {
             model.Move(action);   
         }
@@ -37,10 +37,5 @@ namespace Sokoban
         {
             return model.GameObjects;
         } 
-
-        public void LoadTextures(Dictionary<string, Texture2D> textureBlocks)
-        {
-            model.LoadTextureBlocks(textureBlocks);
-        }
     }
 }

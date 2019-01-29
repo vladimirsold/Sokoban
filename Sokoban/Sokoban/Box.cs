@@ -11,14 +11,25 @@ namespace Sokoban
     {
         public Box(int x, int y) : base(x, y)
         {
-            X = x;
-            Y = y;
+            Texture = "Box";
         }
-
-        public void Move(int x, int y)
+        public void Move(Direction direction)
         {
-            X += x;
-            Y += y;
+            switch(direction)
+            {
+                case Direction.Left:
+                    --X;
+                    break;
+                case Direction.Right:
+                    ++X;
+                    break;
+                case Direction.Up:
+                    --Y;
+                    break;
+                case Direction.Down:
+                    ++Y;
+                    break;
+            }
         }
     }
 }

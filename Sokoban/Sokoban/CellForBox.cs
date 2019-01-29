@@ -9,6 +9,9 @@ namespace Sokoban
 {
     class CellForBox : GameObject
     {
-        public CellForBox(int x, int y) : base(x, y) { }
+        public CellForBox(int x, int y) : base(x, y)
+        {
+            Texture = "EmptyCell";
+        }
     }
 }

@@ -1,18 +1,17 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sokoban
 {
     class Field
     {
+        Dictionary<string, Texture2D> textureBlocks;
         private Model model;
-        public Field(Model model)
+        public Field(Model model, Dictionary<string, Texture2D> textureBlocks)
         {
+            this.textureBlocks = textureBlocks;
             this.model = model; 
         }
 
@@ -20,9 +19,9 @@ namespace Sokoban
         {  
             foreach(var gameObject in model.GameObjects.GetAllGameObjects() )
             {
-                gameObject.Draw(spriteBatch);
+                string type = gameObject.ToString().Split('+', '.').Last();
+                spriteBatch.Draw(textureBlocks[type], new Rectangle(gameObject.X*32, gameObject.Y*32, 32, 32), Color.White);
             }
-
         }
 
        

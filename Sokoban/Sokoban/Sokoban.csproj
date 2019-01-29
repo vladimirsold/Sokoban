@@ -41,7 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Action.cs" />
+    <Compile Include="Direction.cs" />
     <Compile Include="Box.cs" />
     <Compile Include="CellForBox.cs" />
     <Compile Include="CollisionObject.cs" />

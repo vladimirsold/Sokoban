@@ -8,6 +8,6 @@ namespace Sokoban
 {
     interface IMovable
     {
-        void Move(int x, int y);
+        void Move(Direction directon);
     }
 }

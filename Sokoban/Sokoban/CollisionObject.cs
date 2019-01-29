@@ -13,29 +13,28 @@ namespace Sokoban
             X = x;
             Y = y;
         }
-        public bool IsCollision(GameObject gameObject, Action action)
-        {
-            bool result = false;
-            switch(action)
+        public bool IsCollision(GameObject gameObject, Direction direction)
+        {  
+            switch(direction)
             {
-                case Action.Left:
+                case Direction.Left:
                     if(X - Model.FieldSellSize == gameObject.X && Y == gameObject.Y)
-                        result = true;
+                        return true;
                     break;
-                case Action.Right:
+                case Direction.Right:
                     if(X + Model.FieldSellSize == gameObject.X && Y == gameObject.Y)
-                        result = true;
+                        return true;
                     break;
-                case Action.Up:
+                case Direction.Up:
                     if(X == gameObject.X && Y - Model.FieldSellSize == gameObject.Y)
-                        result = true;
+                        return true;
                     break;
-                case Action.Down:
+                case Direction.Down:
                     if(X == gameObject.X && Y + Model.FieldSellSize == gameObject.Y)
-                        result = true;
+                        return true;
                     break;
             }
-            return result;
+            return false;
         }
     }
 }

@@ -11,12 +11,10 @@ namespace Sokoban
 
     class Model
     {
-        public const int FieldSellSize = 32;
+        public const int FieldSellSize = 1;
         public int CurrentLevel { get; private set; }
         public GameObjects GameObjects { get; private set; }
         private LevelLoader levelLoader;
-
-        Dictionary<string, Texture2D> textureBlocks;
 
         public Model()
         {
@@ -27,12 +25,7 @@ namespace Sokoban
 
         public void LoadLevel(int level)
         {
-            GameObjects = levelLoader.LoadLevel(level);
-            foreach(var gameObject in GameObjects.GetAllGameObjects())
-            {
-                string type = gameObject.ToString().Split('+','.').Last();
-                gameObject.Texture = textureBlocks[type];
-            }
+            GameObjects = levelLoader.LoadLevel(level);       
             CurrentLevel = level;
         }
 
@@ -46,41 +39,20 @@ namespace Sokoban
             LoadLevel(CurrentLevel + 1);
         }
 
-        public void Move(Action action)
+        public void Move(Direction direction)
         {
-            Player player = GameObjects.Player;
-
-            if(IsWallCollision(player, action))
+            if(IsWallCollision(GameObjects.Player, direction))
             {
                 return;
             }
-            if(IsBoxCollision(action))
+            if(IsBoxCollision(direction))
             {
                 return;
             }
-            switch(action)
-            {
-                case Action.Left:
-                    player.Move(-FieldSellSize, 0);
-                    break;
-                case Action.Right:
-                    player.Move(FieldSellSize, 0);
-                    break;
-                case Action.Up:
-                    player.Move(0, -FieldSellSize);
-                    break;
-                case Action.Down:
-                    player.Move(0, FieldSellSize);
-                    break;
-            }     
+            GameObjects.Player.Move(direction);   
         }
 
-        public void LoadTextureBlocks(Dictionary<string, Texture2D> textureBlocks)
-        {
-            this.textureBlocks = textureBlocks;  
-        }
-
-        public bool IsWallCollision(CollisionObject gameObject, Action action)
+        public bool IsWallCollision(CollisionObject gameObject, Direction action)
         {
             foreach(Wall wall in GameObjects.Walls)
             {
@@ -93,58 +65,37 @@ namespace Sokoban
             return false;
         }
 
-        public bool IsBoxCollision(Action action)
-        { //проверяет столкновение с ящиками + передвижение
+        public bool IsBoxCollision(Direction direction)
+        { 
             Player player = GameObjects.Player;
-
-            // найдем во что уперся игрок
             GameObject stoped = null;
             foreach(GameObject gameObject in GameObjects.GetAllGameObjects())
             {
-                if(!(gameObject is Player) && !(gameObject is CellForBox) && player.IsCollision(gameObject, action))
+                if(!(gameObject is Player) && !(gameObject is CellForBox) && player.IsCollision(gameObject, direction))
                 {
                     stoped = gameObject;
                 }
-            }
-            //свободное место или дом
+            } 
             if((stoped == null))
             {
                 return false;
             }
-            if(stoped is Box)
+            if(stoped is Box stopedBox)
             {
-                Box stopedBox = (Box)stoped;
-                if(IsWallCollision(stopedBox, action))
+                if(IsWallCollision(stopedBox, direction))
                 {
                     return true;
                 }
                 foreach(Box box in GameObjects.Boxes)
                 {
-                    if(stopedBox.IsCollision(box, action))
+                    if(stopedBox.IsCollision(box, direction))
                     {
                         return true;
                     }
                 }
-                switch(action)
-                {
-                    case Action.Left:
-                        stopedBox.Move(-FieldSellSize, 0);
-                        break;
-                    case Action.Right:
-                        stopedBox.Move(FieldSellSize, 0);
-                        break;
-                    case Action.Up:
-                        stopedBox.Move(0, -FieldSellSize);
-                        break;
-                    case Action.Down:
-                        stopedBox.Move(0, FieldSellSize);
-                        break;
-
-                }
+                stopedBox.Move(direction);     
             }
             return false;
-
-
         }
 
         public bool IsLevelCompleted()
@@ -175,6 +126,5 @@ namespace Sokoban
                 StartNextLevel();
             }
         }
-
     }
 }

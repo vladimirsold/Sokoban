@@ -58,11 +58,9 @@ namespace Sokoban
                 ["Box"] = Content.Load<Texture2D>("Crates/crate_09"),
                 ["CellForBox"] = Content.Load<Texture2D>("Crates/crate_29")
             };
-            model.LoadTextureBlocks(textureBlocks);
-            //controller.LoadTextures(textureBlocks);
             model.LoadLevel(0);
             view = new View(model);
-            model.LoadTextureBlocks(textureBlocks);
+            view.LoadTextureBlocks(textureBlocks);
             controller = new Controller(model);
 
         }

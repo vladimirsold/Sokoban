@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace Sokoban
 {
-    enum Action
+    enum Direction
     {
         Left,
         Up,
         Right,
         Down
-
     }
 }
