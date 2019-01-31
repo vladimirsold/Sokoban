@@ -11,7 +11,7 @@ namespace Sokoban
     {
         public Wall(int x, int y) : base(x, y)
         {
-            Texture = "Wall";
+            Texture = TextureID.Wall;
         }
     }
 }

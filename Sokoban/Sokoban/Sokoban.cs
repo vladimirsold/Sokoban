@@ -15,7 +15,7 @@ namespace Sokoban
         Texture2D Texture { get; set; }
         Controller controller;
         View view;
-        Dictionary<string, Texture2D> textureBlocks;
+        Dictionary<TextureID, Texture2D> textureBlocks;
         KeyboardController keyboardController;
         Model model;
         public Sokoban()
@@ -23,7 +23,8 @@ namespace Sokoban
             graphics = new GraphicsDeviceManager(this);
             model = new Model();
             IsMouseVisible = true;
-            
+            graphics.PreferredBackBufferHeight = 900;
+            graphics.PreferredBackBufferWidth = 1200;
         }
 
         /// <summary>
@@ -35,9 +36,7 @@ namespace Sokoban
         protected override void Initialize()
         {
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferHeight = 900;
-            graphics.PreferredBackBufferWidth = 1200;
-            graphics.IsFullScreen = true;
+            
             keyboardController = new KeyboardController();
             base.Initialize();
         }
@@ -51,14 +50,18 @@ namespace Sokoban
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Texture = Content.Load<Texture2D>("background");
-            textureBlocks = new Dictionary<string, Texture2D>
+            textureBlocks = new Dictionary<TextureID, Texture2D>
             {
-                ["Wall"] = Content.Load<Texture2D>("Blocks/block_05"),
-                ["Player"] = Content.Load<Texture2D>("Player/player_05"),
-                ["Box"] = Content.Load<Texture2D>("Crates/crate_09"),
-                ["CellForBox"] = Content.Load<Texture2D>("Crates/crate_29")
+                [TextureID.Wall] = Content.Load<Texture2D>("Blocks/block_05"),
+                [TextureID.PlayerTurnedForward] = Content.Load<Texture2D>("Player/Forward"),
+                [TextureID.PlayerTurnedBackward] = Content.Load<Texture2D>("player/Backward"),
+                [TextureID.PlayerTurnedLeft] = Content.Load<Texture2D>("Player/Left"),
+                [TextureID.PlayerTurnedRight] = Content.Load<Texture2D>("Player/Right"),
+                [TextureID.Box] = Content.Load<Texture2D>("Crates/crate_09"),
+                [TextureID.EmptyCell] = Content.Load<Texture2D>("Crates/crate_29"),
+                [TextureID.CellWithBox] = Content.Load<Texture2D>("Crates/crate_44")
             };
-            model.LoadLevel(0);
+            model.LoadLevel(12);
             view = new View(model);
             view.LoadTextureBlocks(textureBlocks);
             controller = new Controller(model);

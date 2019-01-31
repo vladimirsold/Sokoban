@@ -18,19 +18,19 @@ namespace Sokoban
             switch(direction)
             {
                 case Direction.Left:
-                    if(X - Model.FieldSellSize == gameObject.X && Y == gameObject.Y)
+                    if(X - 1 == gameObject.X && Y == gameObject.Y)
                         return true;
                     break;
                 case Direction.Right:
-                    if(X + Model.FieldSellSize == gameObject.X && Y == gameObject.Y)
+                    if(X + 1 == gameObject.X && Y == gameObject.Y)
                         return true;
                     break;
                 case Direction.Up:
-                    if(X == gameObject.X && Y - Model.FieldSellSize == gameObject.Y)
+                    if(X == gameObject.X && Y - 1 == gameObject.Y)
                         return true;
                     break;
                 case Direction.Down:
-                    if(X == gameObject.X && Y + Model.FieldSellSize == gameObject.Y)
+                    if(X == gameObject.X && Y + 1 == gameObject.Y)
                         return true;
                     break;
             }

@@ -12,7 +12,7 @@ namespace Sokoban
     {
         public int X { get; protected set; }
         public int Y { get; protected set; }
-        public string Texture { get; protected set; }
+        public TextureID Texture { get; protected set; }
 
         public GameObject(int x, int y)
         {

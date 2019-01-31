@@ -1,31 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace Sokoban
+﻿namespace Sokoban
 {
 
     class Model
-    {
-        public const int FieldSellSize = 1;
+    {       
         public int CurrentLevel { get; private set; }
         public GameObjects GameObjects { get; private set; }
         private LevelLoader levelLoader;
 
         public Model()
         {
-            DirectoryInfo dir = new DirectoryInfo(".");
-            levelLoader = new LevelLoader(dir.FullName + "\\Content\\Level.txt");
+            levelLoader = new LevelLoader();
             CurrentLevel = 0;
         }
 
         public void LoadLevel(int level)
         {
-            GameObjects = levelLoader.LoadLevel(level);       
+            GameObjects = levelLoader.LoadLevel(level);
             CurrentLevel = level;
         }
 
@@ -49,7 +39,7 @@ namespace Sokoban
             {
                 return;
             }
-            GameObjects.Player.Move(direction);   
+            GameObjects.Player.Move(direction);
         }
 
         public bool IsWallCollision(CollisionObject gameObject, Direction action)
@@ -66,7 +56,7 @@ namespace Sokoban
         }
 
         public bool IsBoxCollision(Direction direction)
-        { 
+        {
             Player player = GameObjects.Player;
             GameObject stoped = null;
             foreach(GameObject gameObject in GameObjects.GetAllGameObjects())
@@ -75,7 +65,7 @@ namespace Sokoban
                 {
                     stoped = gameObject;
                 }
-            } 
+            }
             if((stoped == null))
             {
                 return false;
@@ -93,25 +83,32 @@ namespace Sokoban
                         return true;
                     }
                 }
-                stopedBox.Move(direction);     
+                stopedBox.Move(direction);
             }
             return false;
         }
 
-        public bool IsLevelCompleted()
-        {            
+        public void SetCellTexture()
+        {
             foreach(CellForBox cell in GameObjects.Cells)
             {
-                bool boxInSell = false;
-
+                cell.SetTextureID(TextureID.EmptyCell);
                 foreach(Box box in GameObjects.Boxes)
                 {
                     if((box.X == cell.X) && (box.Y == cell.Y))
                     {
-                        boxInSell = true;
+                        cell.SetTextureID(TextureID.CellWithBox);
+                        break;
                     }
                 }
-                if(!boxInSell)
+            }
+        }
+
+        public bool IsLevelCompleted()
+        {
+            foreach(CellForBox cell in GameObjects.Cells)
+            {
+                if(cell.Texture == TextureID.EmptyCell)
                 {
                     return false;
                 }
@@ -121,6 +118,7 @@ namespace Sokoban
 
         public void Update()
         {
+            SetCellTexture();
             if(IsLevelCompleted())
             {
                 StartNextLevel();

@@ -11,7 +11,7 @@ namespace Sokoban
     {
         public Player(int x, int y) : base(x, y)
         {
-            Texture = "PlayerFront";
+            Texture = TextureID.PlayerTurnedForward;
         }
 
         public void Move(Direction direction)
@@ -20,15 +20,19 @@ namespace Sokoban
             {
                 case Direction.Left:
                     --X;
+                    Texture = TextureID.PlayerTurnedLeft;
                     break;
                 case Direction.Right:
                     ++X;
+                    Texture = TextureID.PlayerTurnedRight;
                     break;
                 case Direction.Up:
                     --Y;
+                    Texture = TextureID.PlayerTurnedBackward;
                     break;
                 case Direction.Down:
                     ++Y;
+                    Texture = TextureID.PlayerTurnedForward;
                     break;
             }
         }

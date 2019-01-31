@@ -23,7 +23,7 @@ namespace Sokoban
             field.Paint(spriteBatch);
         }
 
-        public void LoadTextureBlocks(Dictionary<string, Texture2D> textureBlocks)
+        public void LoadTextureBlocks(Dictionary<TextureID, Texture2D> textureBlocks)
         {
             //TextureBlocks = textureBlocks;
             field = new Field(model, textureBlocks);

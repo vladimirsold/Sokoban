@@ -11,7 +11,13 @@ namespace Sokoban
     {
         public CellForBox(int x, int y) : base(x, y)
         {
-            Texture = "EmptyCell";
+            Texture = TextureID.EmptyCell;
         }
+
+        public void SetTextureID(TextureID textureID)
+        {
+            Texture = textureID;
+        }
+
     }
 }

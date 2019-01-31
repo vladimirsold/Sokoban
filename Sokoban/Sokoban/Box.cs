@@ -11,7 +11,7 @@ namespace Sokoban
     {
         public Box(int x, int y) : base(x, y)
         {
-            Texture = "Box";
+            Texture = TextureID.Box;
         }
         public void Move(Direction direction)
         {
