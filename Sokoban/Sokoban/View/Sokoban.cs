@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.BitmapFonts;
 using System.Collections.Generic;
+using GeonBit.UI;
+using GeonBit.UI.Entities;
 
 namespace Sokoban
 {
@@ -26,7 +28,7 @@ namespace Sokoban
         {
             graphics = new GraphicsDeviceManager(this);      
             model = new Model();      
-            IsMouseVisible = true;
+            //IsMouseVisible = true;
             settings = new Settings();
             graphics.PreferredBackBufferHeight = settings.HeightWindow;
             graphics.PreferredBackBufferWidth = settings.WidthWindow;
@@ -41,7 +43,7 @@ namespace Sokoban
         protected override void Initialize()
         {
             Content.RootDirectory = "Content";
-            
+            UserInterface.Initialize(Content, BuiltinThemes.editor);
             keyboardController = new KeyboardController();
             base.Initialize();
         }
@@ -69,7 +71,7 @@ namespace Sokoban
             };
             model.LoadLevel(0); 
             controller = new Controller(model);
-            field = new Field(model, textureBlocks, graphics, settings.DefaultBlockSize);
+            field = new Field(model, textureBlocks, graphics, settings.DefaultBlockSize); 
         }
 
         /// <summary>
@@ -96,7 +98,7 @@ namespace Sokoban
             {
                 field = new Field(model, textureBlocks, graphics, settings.DefaultBlockSize);
             }
-
+            UserInterface.Active.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -109,10 +111,12 @@ namespace Sokoban
             GraphicsDevice.Clear(Color.White);
             spriteBatch.Begin();
             spriteBatch.Draw(Texture, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
-            field.Draw(spriteBatch);
+            field.Draw(spriteBatch);          
             spriteBatch.DrawString(font, $"Steps:{model.Steps}", Vector2.Zero, Color.Black);
             spriteBatch.DrawString(font, $"Time {model.TimeSpan.ToString("mm\\:ss")}", new Vector2(200,0), Color.Black);
+            
             spriteBatch.End();
+            UserInterface.Active.Draw(spriteBatch);
             base.Draw(gameTime);
         }
     }
