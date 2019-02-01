@@ -19,6 +19,7 @@ namespace Sokoban
             var walls = new HashSet<Wall>();
             var boxes = new HashSet<Box>();
             var cells = new HashSet<CellForBox>();
+            Vector fieldSize = null; 
             Player player = null;
             try
             {
@@ -29,8 +30,9 @@ namespace Sokoban
                 }
 
                 fileReader.ReadLine();
-                fileReader.ReadLine();
-                double y = double.Parse(fileReader.ReadLine().Split(' ')[2]);
+                int x = int.Parse(fileReader.ReadLine().Split(' ')[2]);
+                int y = int.Parse(fileReader.ReadLine().Split(' ')[2]);
+                fieldSize = new Vector(x, y);
                 fileReader.ReadLine();
                 fileReader.ReadLine();
                 fileReader.ReadLine();
@@ -65,7 +67,7 @@ namespace Sokoban
             {
                 Console.WriteLine(e.Message);
             }
-            return new GameObjects(walls, boxes, cells, player);
+            return new GameObjects(walls, boxes, cells, player, fieldSize);
         }
     }
 }

@@ -1,21 +1,34 @@
-﻿namespace Sokoban
+﻿
+using System;
+
+namespace Sokoban
 {
 
     class Model
     {       
         public int CurrentLevel { get; private set; }
+        public int Steps { get; private set; }
+        public TimeSpan TimeSpan
+        {
+            get
+            {
+                return DateTime.Now - begin;
+            }
+        }
+        private  DateTime begin; 
         public GameObjects GameObjects { get; private set; }
         private LevelLoader levelLoader;
 
         public Model()
         {
             levelLoader = new LevelLoader();
-            CurrentLevel = 0;
         }
 
         public void LoadLevel(int level)
         {
             GameObjects = levelLoader.LoadLevel(level);
+            Steps = 0;
+            begin = DateTime.Now;
             CurrentLevel = level;
         }
 
@@ -40,6 +53,7 @@
                 return;
             }
             GameObjects.Player.Move(direction);
+            ++Steps;
         }
 
         public bool IsWallCollision(CollisionObject gameObject, Direction action)
@@ -116,13 +130,15 @@
             return true;
         }
 
-        public void Update()
+        public bool Update()
         {
             SetCellTexture();
             if(IsLevelCompleted())
             {
                 StartNextLevel();
+                return true;
             }
+            return false;
         }
     }
 }

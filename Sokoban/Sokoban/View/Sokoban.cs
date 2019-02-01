@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended.BitmapFonts;
 using System.Collections.Generic;
 
 namespace Sokoban
@@ -14,17 +15,21 @@ namespace Sokoban
         SpriteBatch spriteBatch;
         Texture2D Texture { get; set; }
         Controller controller;
-        View view;
         Dictionary<TextureID, Texture2D> textureBlocks;
         KeyboardController keyboardController;
         Model model;
+        BitmapFont font;
+        private Field field;
+        private Settings settings;
+
         public Sokoban()
         {
-            graphics = new GraphicsDeviceManager(this);
-            model = new Model();
+            graphics = new GraphicsDeviceManager(this);      
+            model = new Model();      
             IsMouseVisible = true;
-            graphics.PreferredBackBufferHeight = 900;
-            graphics.PreferredBackBufferWidth = 1200;
+            settings = new Settings();
+            graphics.PreferredBackBufferHeight = settings.HeightWindow;
+            graphics.PreferredBackBufferWidth = settings.WidthWindow;
         }
 
         /// <summary>
@@ -50,6 +55,7 @@ namespace Sokoban
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Texture = Content.Load<Texture2D>("background");
+            font = Content.Load<BitmapFont>("Fonts/font18");
             textureBlocks = new Dictionary<TextureID, Texture2D>
             {
                 [TextureID.Wall] = Content.Load<Texture2D>("Blocks/block_05"),
@@ -61,11 +67,9 @@ namespace Sokoban
                 [TextureID.EmptyCell] = Content.Load<Texture2D>("Crates/crate_29"),
                 [TextureID.CellWithBox] = Content.Load<Texture2D>("Crates/crate_44")
             };
-            model.LoadLevel(12);
-            view = new View(model);
-            view.LoadTextureBlocks(textureBlocks);
+            model.LoadLevel(0); 
             controller = new Controller(model);
-
+            field = new Field(model, textureBlocks, graphics, settings.DefaultBlockSize);
         }
 
         /// <summary>
@@ -88,7 +92,10 @@ namespace Sokoban
             if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             keyboardController.KeyPressHandler(controller);
-            model.Update();
+            if(model.Update())
+            {
+                field = new Field(model, textureBlocks, graphics, settings.DefaultBlockSize);
+            }
 
             base.Update(gameTime);
         }
@@ -102,7 +109,9 @@ namespace Sokoban
             GraphicsDevice.Clear(Color.White);
             spriteBatch.Begin();
             spriteBatch.Draw(Texture, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
-            view.Draw(spriteBatch);
+            field.Draw(spriteBatch);
+            spriteBatch.DrawString(font, $"Steps:{model.Steps}", Vector2.Zero, Color.Black);
+            spriteBatch.DrawString(font, $"Time {model.TimeSpan.ToString("mm\\:ss")}", new Vector2(200,0), Color.Black);
             spriteBatch.End();
             base.Draw(gameTime);
         }
