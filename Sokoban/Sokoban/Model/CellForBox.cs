@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Sokoban
+namespace Sokoban.Model
 {
     class CellForBox : GameObject
     {
+        public bool Empty { get; private set; }
         public CellForBox(int x, int y) : base(x, y)
         {
-            Texture = TextureID.EmptyCell;
+            
         }
 
-        public void SetTextureID(TextureID textureID)
+        public void SetState(bool empty)
         {
-            Texture = textureID;
+            Empty = empty;
         }
-
     }
 }

@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sokoban.Model;
 
-namespace Sokoban
+namespace Sokoban.Controller
 {
     class KeyboardController
     {
@@ -21,7 +22,7 @@ namespace Sokoban
                 [new Tuple<Keys, Direction>(Keys.Down, Direction.Down)] = false,
             };
         }
-        public void KeyPressHandler(Controller controller)
+        public void KeyPressHandler(GameProcessController controller)
         {
             foreach(var key in pressedKey.Keys.ToList())
             {

@@ -5,13 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Sokoban
+namespace Sokoban.Model
 {
     class Wall : CollisionObject
     {
-        public Wall(int x, int y) : base(x, y)
-        {
-            Texture = TextureID.Wall;
-        }
+        public Wall(int x, int y) : base(x, y) { }
     }
 }

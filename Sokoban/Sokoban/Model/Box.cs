@@ -5,14 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Sokoban
+namespace Sokoban.Model
 {
     class Box : CollisionObject, IMovable
     {
-        public Box(int x, int y) : base(x, y)
-        {
-            Texture = TextureID.Box;
-        }
+        public Box(int x, int y) : base(x, y) { }
+
         public void Move(Direction direction)
         {
             switch(direction)

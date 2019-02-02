@@ -5,34 +5,32 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Sokoban
+namespace Sokoban.Model
 {
-    class Player : CollisionObject, IMovable
+    class Storekeeper : CollisionObject, IMovable
     {
-        public Player(int x, int y) : base(x, y)
+        public Direction State { get; private set; }
+        public Storekeeper(int x, int y) : base(x, y)
         {
-            Texture = TextureID.PlayerTurnedForward;
+            State = Direction.Down;
         }
 
         public void Move(Direction direction)
         {
+            State = direction;
             switch(direction)
             {
                 case Direction.Left:
-                    --X;
-                    Texture = TextureID.PlayerTurnedLeft;
+                    --X;  
                     break;
                 case Direction.Right:
-                    ++X;
-                    Texture = TextureID.PlayerTurnedRight;
+                    ++X;      
                     break;
                 case Direction.Up:
-                    --Y;
-                    Texture = TextureID.PlayerTurnedBackward;
+                    --Y; 
                     break;
                 case Direction.Down:
-                    ++Y;
-                    Texture = TextureID.PlayerTurnedForward;
+                    ++Y;    
                     break;
             }
         }

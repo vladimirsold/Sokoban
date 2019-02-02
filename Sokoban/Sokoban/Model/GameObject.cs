@@ -6,13 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sokoban
+namespace Sokoban.Model
 {
     abstract class GameObject
     {
         public int X { get; protected set; }
         public int Y { get; protected set; }
-        public TextureID Texture { get; protected set; }
 
         public GameObject(int x, int y)
         {

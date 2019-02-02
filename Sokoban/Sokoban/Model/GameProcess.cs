@@ -1,13 +1,15 @@
 ﻿
 using System;
 
-namespace Sokoban
+namespace Sokoban.Model
 {
 
-    class Model
+    class GameProcess
     {       
-        public int CurrentLevel { get; private set; }
-        public int Steps { get; private set; }
+        public Level CurrentLevel { get; private set; }
+        public int Steps { get; private set; }      
+        private  DateTime begin; 
+        public GameObjects GameObjects { get; private set; }
         public TimeSpan TimeSpan
         {
             get
@@ -15,18 +17,10 @@ namespace Sokoban
                 return DateTime.Now - begin;
             }
         }
-        private  DateTime begin; 
-        public GameObjects GameObjects { get; private set; }
-        private LevelLoader levelLoader;
 
-        public Model()
+        public void LoadLevel(Level level)
         {
-            levelLoader = new LevelLoader();
-        }
-
-        public void LoadLevel(int level)
-        {
-            GameObjects = levelLoader.LoadLevel(level);
+            GameObjects = LevelLoader.LoadLevel(level);
             Steps = 0;
             begin = DateTime.Now;
             CurrentLevel = level;
@@ -39,7 +33,8 @@ namespace Sokoban
 
         public void StartNextLevel()
         {
-            LoadLevel(CurrentLevel + 1);
+            var nextLevel = LevelLoader.NextLevel(CurrentLevel);
+            LoadLevel(nextLevel);
         }
 
         public void Move(Direction direction)
@@ -71,11 +66,11 @@ namespace Sokoban
 
         public bool IsBoxCollision(Direction direction)
         {
-            Player player = GameObjects.Player;
+            Storekeeper player = GameObjects.Player;
             GameObject stoped = null;
-            foreach(GameObject gameObject in GameObjects.GetAllGameObjects())
+            foreach(CollisionObject gameObject in GameObjects.GetCollisionObjects())
             {
-                if(!(gameObject is Player) && !(gameObject is CellForBox) && player.IsCollision(gameObject, direction))
+                if(player.IsCollision(gameObject, direction))
                 {
                     stoped = gameObject;
                 }
@@ -102,16 +97,17 @@ namespace Sokoban
             return false;
         }
 
-        public void SetCellTexture()
+        public void SetStateOfCell()
         {
             foreach(CellForBox cell in GameObjects.Cells)
             {
-                cell.SetTextureID(TextureID.EmptyCell);
+                bool empty = true;
+                cell.SetState(empty);
                 foreach(Box box in GameObjects.Boxes)
                 {
                     if((box.X == cell.X) && (box.Y == cell.Y))
                     {
-                        cell.SetTextureID(TextureID.CellWithBox);
+                        cell.SetState(!empty);
                         break;
                     }
                 }
@@ -122,7 +118,7 @@ namespace Sokoban
         {
             foreach(CellForBox cell in GameObjects.Cells)
             {
-                if(cell.Texture == TextureID.EmptyCell)
+                if(cell.Empty)
                 {
                     return false;
                 }
@@ -132,7 +128,7 @@ namespace Sokoban
 
         public bool Update()
         {
-            SetCellTexture();
+            SetStateOfCell();
             if(IsLevelCompleted())
             {
                 StartNextLevel();

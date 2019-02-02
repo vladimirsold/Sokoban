@@ -5,6 +5,9 @@ using MonoGame.Extended.BitmapFonts;
 using System.Collections.Generic;
 using GeonBit.UI;
 using GeonBit.UI.Entities;
+using Sokoban.Controller;
+using Sokoban.Model;
+using Sokoban.View;
 
 namespace Sokoban
 {
@@ -16,10 +19,10 @@ namespace Sokoban
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D Texture { get; set; }
-        Controller controller;
+        GameProcessController controller;
         Dictionary<TextureID, Texture2D> textureBlocks;
         KeyboardController keyboardController;
-        Model model;
+        GameProcess gameProcess;
         BitmapFont font;
         private Field field;
         private Settings settings;
@@ -27,7 +30,7 @@ namespace Sokoban
         public Sokoban()
         {
             graphics = new GraphicsDeviceManager(this);      
-            model = new Model();      
+            gameProcess = new GameProcess();      
             //IsMouseVisible = true;
             settings = new Settings();
             graphics.PreferredBackBufferHeight = settings.HeightWindow;
@@ -69,9 +72,9 @@ namespace Sokoban
                 [TextureID.EmptyCell] = Content.Load<Texture2D>("Crates/crate_29"),
                 [TextureID.CellWithBox] = Content.Load<Texture2D>("Crates/crate_44")
             };
-            model.LoadLevel(0); 
-            controller = new Controller(model);
-            field = new Field(model, textureBlocks, graphics, settings.DefaultBlockSize); 
+            gameProcess.LoadLevel(new Level(Series.ThinkingRabbitOriginal, 0)); 
+            controller = new GameProcessController(gameProcess);
+            field = new Field(gameProcess, textureBlocks, graphics, settings.DefaultBlockSize); 
         }
 
         /// <summary>
@@ -94,9 +97,9 @@ namespace Sokoban
             if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             keyboardController.KeyPressHandler(controller);
-            if(model.Update())
+            if(gameProcess.Update())
             {
-                field = new Field(model, textureBlocks, graphics, settings.DefaultBlockSize);
+                field = new Field(gameProcess, textureBlocks, graphics, settings.DefaultBlockSize);
             }
             UserInterface.Active.Update(gameTime);
             base.Update(gameTime);
@@ -112,8 +115,8 @@ namespace Sokoban
             spriteBatch.Begin();
             spriteBatch.Draw(Texture, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
             field.Draw(spriteBatch);          
-            spriteBatch.DrawString(font, $"Steps:{model.Steps}", Vector2.Zero, Color.Black);
-            spriteBatch.DrawString(font, $"Time {model.TimeSpan.ToString("mm\\:ss")}", new Vector2(200,0), Color.Black);
+            spriteBatch.DrawString(font, $"Steps:{gameProcess.Steps}", Vector2.Zero, Color.Black);
+            spriteBatch.DrawString(font, $"Time {gameProcess.TimeSpan.ToString("mm\\:ss")}", new Vector2(200,0), Color.Black);
             
             spriteBatch.End();
             UserInterface.Active.Draw(spriteBatch);

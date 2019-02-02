@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sokoban
+namespace Sokoban.Model
 {
     abstract class CollisionObject : GameObject
     {
@@ -13,7 +13,7 @@ namespace Sokoban
             X = x;
             Y = y;
         }
-        public bool IsCollision(GameObject gameObject, Direction direction)
+        public bool IsCollision(CollisionObject gameObject, Direction direction)
         {  
             switch(direction)
             {

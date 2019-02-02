@@ -4,38 +4,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sokoban.Model;
 
-namespace Sokoban
+namespace Sokoban.Controller
 {
     
-    class Controller
+    class GameProcessController
     {
-        Model model; 
-        public Controller(Model model)
+        GameProcess gameProcess; 
+        public GameProcessController(GameProcess gameProcess)
         {
-            this.model = model;
+            this.gameProcess = gameProcess;
         }     
 
         public void Move(Direction action)
         {
-            model.Move(action);   
+            gameProcess.Move(action);   
         }
 
         public void Restart()
         {
-            model.Restart();
+            gameProcess.Restart();
             
         }
 
         public void StartNextLevel()
         {
-            model.StartNextLevel();
+            gameProcess.StartNextLevel();
             
         }
 
         public GameObjects GetGameObjects()
         {
-            return model.GameObjects;
+            return gameProcess.GameObjects;
         } 
     }
 }

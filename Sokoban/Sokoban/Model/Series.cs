@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Sokoban.Model
 {
-    interface IMovable
+    enum Series
     {
-        void Move(Direction directon);
+        ThinkingRabbitOriginal
     }
 }
