@@ -12,10 +12,10 @@ namespace Sokoban.Model
             var boxes = new HashSet<Box>();
             var cells = new HashSet<CellForBox>();
             Vector fieldSize = null; 
-            Storekeeper player = null;
+            Storekeeper storekeeper = null;
             try
             {
-                StreamReader fileReader = SeriesLoader.LoadSeries(level.Series);
+                StreamReader fileReader = LoadSeries(level.Series);
                 while(!fileReader.ReadLine().Contains($"Maze: {level.NumberOfLevel}"))
                 {
                     ;
@@ -39,7 +39,7 @@ namespace Sokoban.Model
                                 walls.Add(new Wall(j, i));
                                 break;
                             case '@':
-                                player = new Storekeeper(j, i);
+                                storekeeper = new Storekeeper(j, i);
                                 break;
                             case '*':
                                 boxes.Add(new Box(j, i));
@@ -59,7 +59,12 @@ namespace Sokoban.Model
             {
                 Console.WriteLine(e.Message);
             }
-            return new GameObjects(walls, boxes, cells, player, fieldSize);
+            return new GameObjects(walls, boxes, cells, storekeeper, fieldSize);
+        }
+
+        static StreamReader LoadSeries(Series series)
+        {
+            return new StreamReader("C:\\Users\\Владимир\\source\\repos\\vladimirsold\\Sokoban\\Sokoban\\Sokoban\\Content\\Levels.txt");
         }
 
         public static Level NextLevel(Level level)

@@ -48,7 +48,6 @@
     <Compile Include="Controller\Controller.cs" />
     <Compile Include="Model\Level.cs" />
     <Compile Include="Model\Series.cs" />
-    <Compile Include="Model\SeriesLoader.cs" />
     <Compile Include="View\Field.cs" />
     <Compile Include="Model\GameObject.cs" />
     <Compile Include="Model\GameObjects.cs" />

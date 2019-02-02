@@ -39,7 +39,7 @@ namespace Sokoban.Model
 
         public void Move(Direction direction)
         {
-            if(IsWallCollision(GameObjects.Player, direction))
+            if(IsWallCollision(GameObjects.Storekeeper, direction))
             {
                 return;
             }
@@ -47,7 +47,7 @@ namespace Sokoban.Model
             {
                 return;
             }
-            GameObjects.Player.Move(direction);
+            GameObjects.Storekeeper.Move(direction);
             ++Steps;
         }
 
@@ -66,7 +66,7 @@ namespace Sokoban.Model
 
         public bool IsBoxCollision(Direction direction)
         {
-            Storekeeper player = GameObjects.Player;
+            Storekeeper player = GameObjects.Storekeeper;
             GameObject stoped = null;
             foreach(CollisionObject gameObject in GameObjects.GetCollisionObjects())
             {
