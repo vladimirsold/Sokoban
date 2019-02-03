@@ -1,10 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.BitmapFonts;
 using System.Collections.Generic;
-using GeonBit.UI;
-using GeonBit.UI.Entities;
+
 using Sokoban.Controller;
 using Sokoban.Model;
 using Sokoban.View;
@@ -18,19 +16,15 @@ namespace Sokoban
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D Texture { get; set; }
-        GameProcessController controller;
-        Dictionary<TextureID, Texture2D> textureBlocks;
-        KeyboardController keyboardController;
-        GameProcess gameProcess;
-        BitmapFont font;
-        private Field field;
+        Texture2D TextureBackground { get; set; }      
+        ContentLoader ContentLoader { get; set; }
         private Settings settings;
+        Scene currentScene;
 
         public Sokoban()
         {
             graphics = new GraphicsDeviceManager(this);      
-            gameProcess = new GameProcess();      
+                  
             //IsMouseVisible = true;
             settings = new Settings();
             graphics.PreferredBackBufferHeight = settings.HeightWindow;
@@ -46,8 +40,6 @@ namespace Sokoban
         protected override void Initialize()
         {
             Content.RootDirectory = "Content";
-            UserInterface.Initialize(Content, BuiltinThemes.editor);
-            keyboardController = new KeyboardController();
             base.Initialize();
         }
 
@@ -59,22 +51,9 @@ namespace Sokoban
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            Texture = Content.Load<Texture2D>("background");
-            font = Content.Load<BitmapFont>("Fonts/font18");
-            textureBlocks = new Dictionary<TextureID, Texture2D>
-            {
-                [TextureID.Wall] = Content.Load<Texture2D>("Blocks/block_05"),
-                [TextureID.PlayerTurnedForward] = Content.Load<Texture2D>("Player/Forward"),
-                [TextureID.PlayerTurnedBackward] = Content.Load<Texture2D>("player/Backward"),
-                [TextureID.PlayerTurnedLeft] = Content.Load<Texture2D>("Player/Left"),
-                [TextureID.PlayerTurnedRight] = Content.Load<Texture2D>("Player/Right"),
-                [TextureID.Box] = Content.Load<Texture2D>("Crates/crate_09"),
-                [TextureID.EmptyCell] = Content.Load<Texture2D>("Crates/crate_29"),
-                [TextureID.CellWithBox] = Content.Load<Texture2D>("Crates/crate_44")
-            };
-            gameProcess.LoadLevel(new Level(Series.ThinkingRabbitOriginal, 0)); 
-            controller = new GameProcessController(gameProcess);
-            field = new Field(gameProcess, textureBlocks, graphics, settings.DefaultBlockSize); 
+            TextureBackground = Content.Load<Texture2D>("background");
+            ContentLoader = new ContentLoader(Content);
+            currentScene = new MenuScene(Content);
         }
 
         /// <summary>
@@ -86,7 +65,6 @@ namespace Sokoban
             
         }
 
-
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -94,14 +72,24 @@ namespace Sokoban
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-            keyboardController.KeyPressHandler(controller);
-            if(gameProcess.Update())
+            if(currentScene is MenuScene menu)
             {
-                field = new Field(gameProcess, textureBlocks, graphics, settings.DefaultBlockSize);
+                if(menu.Exit())
+                {
+                    Exit();
+                }
+
+                if(menu.Start())
+                {
+                    currentScene = new GameProcessScene(graphics, ContentLoader, settings);
+                }
             }
-            UserInterface.Active.Update(gameTime);
+
+            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                currentScene = new MenuScene(Content);
+            }
+            currentScene.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -113,13 +101,9 @@ namespace Sokoban
         {
             GraphicsDevice.Clear(Color.White);
             spriteBatch.Begin();
-            spriteBatch.Draw(Texture, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
-            field.Draw(spriteBatch);          
-            spriteBatch.DrawString(font, $"Steps:{gameProcess.Steps}", Vector2.Zero, Color.Black);
-            spriteBatch.DrawString(font, $"Time {gameProcess.TimeSpan.ToString("mm\\:ss")}", new Vector2(200,0), Color.Black);
-            
+            spriteBatch.Draw(TextureBackground, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
             spriteBatch.End();
-            UserInterface.Active.Draw(spriteBatch);
+            currentScene.Draw(spriteBatch);
             base.Draw(gameTime);
         }
     }

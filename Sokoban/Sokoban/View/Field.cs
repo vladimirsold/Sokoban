@@ -27,12 +27,14 @@ namespace Sokoban.View
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Begin();
             foreach(var gameObject in gameProcess.GameObjects.GetAllGameObjects())
             {
                 var rectangle = GetRectangleMatchingGameObject(gameObject);
                 var texture = GetTextureMatchingGameObject(gameObject);
                 spriteBatch.Draw(texture, rectangle, Color.White);
             }
+            spriteBatch.End();
         }
 
         private Texture2D GetTextureMatchingGameObject(GameObject gameObject)
