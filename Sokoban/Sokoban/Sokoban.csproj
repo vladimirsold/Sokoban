@@ -41,6 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Model\LevelManager.cs" />
     <Compile Include="View\ContentLoader.cs" />
     <Compile Include="Model\Direction.cs" />
     <Compile Include="Model\Box.cs" />
@@ -49,7 +50,6 @@
     <Compile Include="Controller\Controller.cs" />
     <Compile Include="Model\Level.cs" />
     <Compile Include="Model\Series.cs" />
-    <Compile Include="View\Field.cs" />
     <Compile Include="Model\GameObject.cs" />
     <Compile Include="Model\GameObjects.cs" />
     <Compile Include="Model\IMovable.cs" />
@@ -57,7 +57,7 @@
     <Compile Include="Model\LevelLoader.cs" />
     <Compile Include="Model\GameProcess.cs" />
     <Compile Include="Model\Storekeeper.cs" />
-    <Compile Include="View\GameProcessScene.cs" />
+    <Compile Include="View\GameScene.cs" />
     <Compile Include="View\MenuScene.cs" />
     <Compile Include="View\Scene.cs" />
     <Compile Include="View\Settings.cs" />

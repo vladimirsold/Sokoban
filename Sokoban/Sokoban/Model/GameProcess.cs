@@ -33,7 +33,7 @@ namespace Sokoban.Model
 
         public void StartNextLevel()
         {
-            var nextLevel = LevelLoader.NextLevel(CurrentLevel);
+            var nextLevel = LevelManager.NextLevel(CurrentLevel);
             LoadLevel(nextLevel);
         }
 

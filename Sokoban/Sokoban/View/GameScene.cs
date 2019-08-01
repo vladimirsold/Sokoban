@@ -10,18 +10,19 @@ using Sokoban.Model;
 
 namespace Sokoban.View
 {
-    class GameProcessScene : Scene
+    class GameScene : Scene
     {
+
         private Field field;
         private GameProcess gameProcess;
         private Dictionary<TextureID, Texture2D> textureBlocks;
-        private SpriteFont font;
-        private Settings settings;
-        private GraphicsDeviceManager graphics;
+        private readonly SpriteFont font;
+        private readonly Settings settings;
+        private readonly GraphicsDeviceManager graphics;
         private GameProcessController controller;      
-        private KeyboardController keyboardController;
+        private readonly KeyboardController keyboardController;
 
-        public GameProcessScene(GraphicsDeviceManager graphics, ContentLoader content, Settings settings)
+        public GameScene(GraphicsDeviceManager graphics, ContentLoader content, Settings settings)
         {
             this.settings = settings;
             keyboardController = new KeyboardController();

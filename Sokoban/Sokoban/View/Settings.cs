@@ -8,15 +8,23 @@ namespace Sokoban
 {
     class Settings
     {
+        private static Settings instance;
         public int DefaultBlockSize { get; private set; }
         public int HeightWindow { get; private set; }
         public int WidthWindow { get; private set; }
 
-        public Settings()
+        Settings()
         {
             DefaultBlockSize = 32;
             HeightWindow = 900;
             WidthWindow = 1200;
+        }
+
+        public static Settings GetSettings()
+        {
+            if(instance == null)
+                instance = new Settings();
+            return instance;
         }
     }
 }

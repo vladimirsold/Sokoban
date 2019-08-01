@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Sokoban.Controller;
 using Sokoban.Model;
 using Sokoban.View;
+using System;
 
 namespace Sokoban
 {
@@ -26,7 +27,12 @@ namespace Sokoban
             graphics = new GraphicsDeviceManager(this);      
                   
             //IsMouseVisible = true;
-            settings = new Settings();
+            settings = Settings.GetSettings();
+            LoadSettings(settings);
+        }
+
+        private void LoadSettings(Settings settings)
+        {
             graphics.PreferredBackBufferHeight = settings.HeightWindow;
             graphics.PreferredBackBufferWidth = settings.WidthWindow;
         }
@@ -62,7 +68,7 @@ namespace Sokoban
         /// </summary>
         protected override void UnloadContent()
         {
-            
+           
         }
 
         /// <summary>
@@ -81,7 +87,7 @@ namespace Sokoban
 
                 if(menu.Start())
                 {
-                    currentScene = new GameProcessScene(graphics, ContentLoader, settings);
+                    currentScene = new GameScene(graphics, ContentLoader, settings);
                 }
             }
 
