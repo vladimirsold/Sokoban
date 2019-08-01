@@ -15,7 +15,7 @@ namespace Sokoban.View
 
         public ContentLoader(ContentManager content)
         {
-            Font = content.Load<SpriteFont>("Fonts/JingJing");
+            Font = content.Load<SpriteFont>("Fonts/Font");
             TextureBlocks = new Dictionary<TextureID, Texture2D>
             {
                 [TextureID.Wall] = content.Load<Texture2D>("Blocks/block_05"),
