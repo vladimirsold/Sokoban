@@ -10,7 +10,7 @@ using Sokoban.Model;
 
 namespace Sokoban.View
 {
-    class GameScene : Scene
+    class GameScene : IScene
     {
 
         private Field field;
@@ -20,28 +20,22 @@ namespace Sokoban.View
         private readonly Settings settings;
         private readonly GraphicsDeviceManager graphics;
         private GameProcessController controller;      
-        private readonly KeyboardController keyboardController;
+        private KeyboardController keyboardController;
 
         public GameScene(GraphicsDeviceManager graphics, ContentLoader content, Settings settings)
         {
-            this.settings = settings;
-            keyboardController = new KeyboardController();
-            gameProcess = new GameProcess();
+            this.settings = settings; 
             textureBlocks = content.TextureBlocks;
             font = content.Font;
             this.graphics = graphics;
-            Initialize();
-        }
-
-        public override void Initialize()
-        {
+            keyboardController = new KeyboardController();
+            gameProcess = new GameProcess();
             gameProcess.LoadLevel(new Level(Series.ThinkingRabbitOriginal, 0));
             field = new Field(gameProcess, textureBlocks, graphics, settings.DefaultBlockSize);
             controller = new GameProcessController(gameProcess);
-
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             spriteBatch.DrawString(font, $"Steps:{gameProcess.Steps}", Vector2.Zero, Color.Black);
@@ -50,7 +44,7 @@ namespace Sokoban.View
             field.Draw(spriteBatch);
         }
 
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             if(gameProcess.Update())
             {

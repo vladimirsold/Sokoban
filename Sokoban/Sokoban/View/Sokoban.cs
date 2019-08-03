@@ -7,6 +7,7 @@ using Sokoban.Controller;
 using Sokoban.Model;
 using Sokoban.View;
 using System;
+using GeonBit.UI;
 
 namespace Sokoban
 {
@@ -17,15 +18,17 @@ namespace Sokoban
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D TextureBackground { get; set; }      
+        Texture2D TextureBackground { get; set; }
         ContentLoader ContentLoader { get; set; }
         private Settings settings;
-        Scene currentScene;
-
+        GameScene gameScene;
+        MainMenu mainMenu;
+        Pause pause;
+        IScene currentScene;
         public Sokoban()
         {
-            graphics = new GraphicsDeviceManager(this);      
-                  
+            graphics = new GraphicsDeviceManager(this);
+
             //IsMouseVisible = true;
             settings = Settings.GetSettings();
             LoadSettings(settings);
@@ -59,7 +62,18 @@ namespace Sokoban
             spriteBatch = new SpriteBatch(GraphicsDevice);
             TextureBackground = Content.Load<Texture2D>("background");
             ContentLoader = new ContentLoader(Content);
-            currentScene = new MenuScene(Content);
+            pause = new Pause(Content);
+            mainMenu = new MainMenu(Content);
+            gameScene = new GameScene(graphics, ContentLoader, settings);          
+            mainMenu.StartButtonPressed += () =>
+            {
+
+                currentScene = gameScene;
+            };
+            mainMenu.ExitButtonPressed += Exit;
+            pause.ContinueButtonPressed += () => currentScene = gameScene;
+            pause.MainMenuButtonPressed += mainMenu.CallMenu;
+            currentScene = mainMenu;
         }
 
         /// <summary>
@@ -78,25 +92,17 @@ namespace Sokoban
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if(currentScene is MenuScene menu)
+            if(Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                if(menu.Exit())
+                if(currentScene is GameScene)
                 {
-                    Exit();
+                    pause.CallPause();
+                    currentScene = pause;
                 }
-
-                if(menu.Start())
-                {
-                    currentScene = new GameScene(graphics, ContentLoader, settings);
-                }
-            }
-
-            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                currentScene = new MenuScene(Content);
             }
             currentScene.Update(gameTime);
             base.Update(gameTime);
+            UserInterface.Active.Update(gameTime);
         }
 
         /// <summary>
@@ -110,6 +116,7 @@ namespace Sokoban
             spriteBatch.Draw(TextureBackground, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
             spriteBatch.End();
             currentScene.Draw(spriteBatch);
+            UserInterface.Active.Draw(spriteBatch);
             base.Draw(gameTime);
         }
     }

@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 
 namespace Sokoban.View
 {
-    abstract class Scene
+    interface IScene
     {
-        public abstract void Initialize();
-        public abstract void Update(GameTime gameTime);
-        public abstract void Draw(SpriteBatch spriteBatch);
-
+        void Update(GameTime gameTime);
+        void Draw(SpriteBatch spriteBatch);
     }
 }

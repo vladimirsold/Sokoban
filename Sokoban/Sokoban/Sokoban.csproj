@@ -57,9 +57,12 @@
     <Compile Include="Model\LevelLoader.cs" />
     <Compile Include="Model\GameProcess.cs" />
     <Compile Include="Model\Storekeeper.cs" />
+    <Compile Include="View\Field.cs" />
     <Compile Include="View\GameScene.cs" />
-    <Compile Include="View\MenuScene.cs" />
-    <Compile Include="View\Scene.cs" />
+    <Compile Include="View\IScene.cs" />
+    <Compile Include="View\MainMenu.cs" />
+    <Compile Include="View\UI.cs" />
+    <Compile Include="View\PauseScene.cs" />
     <Compile Include="View\Settings.cs" />
     <Compile Include="View\Sokoban.cs" />
     <Compile Include="Program.cs" />
