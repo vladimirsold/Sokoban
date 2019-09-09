@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Sokoban;
 using Sokoban.Controller;
 using Sokoban.Model;
 
-namespace Sokoban.View
+namespace View
 {
     class GameScene : IScene
     {

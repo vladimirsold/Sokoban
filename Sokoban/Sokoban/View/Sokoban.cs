@@ -3,11 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
-using Sokoban.Controller;
-using Sokoban.Model;
-using Sokoban.View;
-using System;
+
 using GeonBit.UI;
+using View;
 
 namespace Sokoban
 {
@@ -67,7 +65,7 @@ namespace Sokoban
             gameScene = new GameScene(graphics, ContentLoader, settings);          
             mainMenu.StartButtonPressed += () =>
             {
-
+                gameScene = new GameScene(graphics, ContentLoader, settings);
                 currentScene = gameScene;
             };
             mainMenu.ExitButtonPressed += Exit;

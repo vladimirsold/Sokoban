@@ -3,9 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sokoban;
 using Sokoban.Model;
 
-namespace Sokoban.View
+namespace View
 {
     class Field
     {

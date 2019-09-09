@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using System;
 
-namespace Sokoban.View
+namespace View
 {
     class MainMenu : UI
     {

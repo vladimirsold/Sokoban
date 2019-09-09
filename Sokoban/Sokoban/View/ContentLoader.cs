@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using Sokoban;
 
 
-namespace Sokoban.View
+namespace View
 { 
     class ContentLoader
     {
