@@ -9,15 +9,15 @@ namespace Sokoban.Model
 {
     class CellForBox : GameObject
     {
-        public bool Empty { get; private set; }
+        public bool IsEmpty { get; private set; }
         public CellForBox(int x, int y) : base(x, y)
         {
             
         }
 
-        public void SetState(bool empty)
+        public void SetState(bool state)
         {
-            Empty = empty;
+            IsEmpty = state;
         }
     }
 }

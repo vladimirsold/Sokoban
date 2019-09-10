@@ -15,7 +15,7 @@ namespace View
     {
 
         private Field field;
-        private GameProcess gameProcess;
+        private GameModel gameProcess;
         private Dictionary<TextureID, Texture2D> textureBlocks;
         private readonly SpriteFont font;
         private readonly Settings settings;
@@ -30,7 +30,8 @@ namespace View
             font = content.Font;
             this.graphics = graphics;
             keyboardController = new KeyboardController();
-            gameProcess = new GameProcess();
+            gameProcess = new GameModel();
+            gameProcess.LevelCompleted += () => field = new Field(gameProcess, textureBlocks, graphics, settings.DefaultBlockSize);
             gameProcess.LoadLevel(new Level(Series.ThinkingRabbitOriginal, 0));
             field = new Field(gameProcess, textureBlocks, graphics, settings.DefaultBlockSize);
             controller = new GameProcessController(gameProcess);
@@ -47,10 +48,7 @@ namespace View
 
         public void Update(GameTime gameTime)
         {
-            if(gameProcess.Update())
-            {
-                field = new Field(gameProcess, textureBlocks, graphics, settings.DefaultBlockSize);
-            }
+            gameProcess.Update();
             keyboardController.KeyPressHandler(controller);
         }
     }

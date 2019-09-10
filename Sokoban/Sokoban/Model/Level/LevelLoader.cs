@@ -6,7 +6,7 @@ namespace Sokoban.Model
 {
     class LevelLoader
     {     
-        public static GameObjects LoadLevel(Level level)
+        public static ValueTuple<HashSet<Wall>, HashSet<Box>, HashSet<CellForBox>, Storekeeper, Vector> LoadLevel(Level level)
         {
             var walls = new HashSet<Wall>();
             var boxes = new HashSet<Box>();
@@ -59,7 +59,7 @@ namespace Sokoban.Model
             {
                 Console.WriteLine(e.Message);
             }
-            return new GameObjects(walls, boxes, cells, storekeeper, fieldSize);
+            return (walls, boxes, cells, storekeeper, fieldSize);
         }
 
         static StreamReader LoadSeries(Series series)

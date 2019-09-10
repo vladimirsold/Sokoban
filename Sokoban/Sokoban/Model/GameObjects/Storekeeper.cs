@@ -7,25 +7,26 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Sokoban.Model
 {
-    class Box : CollisionObject, IMovable
+    class Storekeeper : CollisionObject, IMovable
     {
-        public Box(int x, int y) : base(x, y) { }
+        public Direction State { get; private set; }
+        public Storekeeper(int x, int y) : base(x, y)
+        {
+            State = Direction.Down;
+        }
 
         public void Move(Direction direction)
         {
+            State = direction;
             switch(direction)
             {
-                case Direction.Left:
-                    --X;
+                case Direction.Left: --X;  
                     break;
-                case Direction.Right:
-                    ++X;
+                case Direction.Right: ++X;      
                     break;
-                case Direction.Up:
-                    --Y;
+                case Direction.Up: --Y; 
                     break;
-                case Direction.Down:
-                    ++Y;
+                case Direction.Down: ++Y;    
                     break;
             }
         }

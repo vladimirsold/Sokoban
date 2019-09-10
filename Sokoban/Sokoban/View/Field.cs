@@ -13,23 +13,23 @@ namespace View
         private readonly int blockSize;
         private readonly Point pointDraw;
         private readonly Dictionary<TextureID, Texture2D> textureBlocks;
-        private GameProcess gameProcess;
-        public Field(GameProcess gameProcess, Dictionary<TextureID, Texture2D> textureBlocks, GraphicsDeviceManager graphics, int defaultBlockSize)
+        private GameModel gameProcess;
+        public Field(GameModel gameProcess, Dictionary<TextureID, Texture2D> textureBlocks, GraphicsDeviceManager graphics, int defaultBlockSize)
         {
             this.textureBlocks = textureBlocks;
             this.gameProcess = gameProcess;
-            var possibleSizeBlock = new int[]{graphics.PreferredBackBufferWidth / gameProcess.GameObjects.FieldSize.X,
-                graphics.PreferredBackBufferHeight / (gameProcess.GameObjects.FieldSize.Y + 1), defaultBlockSize};
+            var possibleSizeBlock = new int[]{graphics.PreferredBackBufferWidth / gameProcess.FieldSize.X,
+                graphics.PreferredBackBufferHeight / (gameProcess.FieldSize.Y + 1), defaultBlockSize};
             blockSize = possibleSizeBlock.Min();           
-            var pointX = (graphics.PreferredBackBufferWidth - gameProcess.GameObjects.FieldSize.X * blockSize) / 2;
-            var pointY = (graphics.PreferredBackBufferHeight - gameProcess.GameObjects.FieldSize.Y * blockSize) / 2;
+            var pointX = (graphics.PreferredBackBufferWidth - gameProcess.FieldSize.X * blockSize) / 2;
+            var pointY = (graphics.PreferredBackBufferHeight - gameProcess.FieldSize.Y * blockSize) / 2;
             pointDraw = new Point(pointX, pointY);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            foreach(var gameObject in gameProcess.GameObjects.GetAllGameObjects())
+            foreach(var gameObject in gameProcess.GetAllGameObjects())
             {
                 var rectangle = GetRectangleMatchingGameObject(gameObject);
                 var texture = GetTextureMatchingGameObject(gameObject);
@@ -64,9 +64,9 @@ namespace View
             }
             if(gameObject is CellForBox cellForBox)
             {
-                return cellForBox.Empty ? textureBlocks[TextureID.EmptyCell] : textureBlocks[TextureID.CellWithBox]; 
+                return cellForBox.IsEmpty ? textureBlocks[TextureID.EmptyCell] : textureBlocks[TextureID.CellWithBox]; 
             }
-            throw  new ArgumentException();
+            throw new ArgumentException();
         }
   
         Rectangle GetRectangleMatchingGameObject(GameObject gameObject)

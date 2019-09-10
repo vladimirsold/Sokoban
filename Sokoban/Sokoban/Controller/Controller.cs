@@ -11,15 +11,15 @@ namespace Sokoban.Controller
     
     class GameProcessController
     {
-        GameProcess gameProcess; 
-        public GameProcessController(GameProcess gameProcess)
+        GameModel gameProcess; 
+        public GameProcessController(GameModel gameProcess)
         {
             this.gameProcess = gameProcess;
         }     
 
-        public void Move(Direction action)
+        public void Move(Direction direction)
         {
-            gameProcess.Move(action);   
+            gameProcess.Move(direction);   
         }
 
         public void Restart()
@@ -33,10 +33,5 @@ namespace Sokoban.Controller
             gameProcess.StartNextLevel();
             
         }
-
-        public GameObjects GetGameObjects()
-        {
-            return gameProcess.GameObjects;
-        } 
     }
 }
