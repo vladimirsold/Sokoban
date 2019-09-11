@@ -22,14 +22,14 @@ namespace Sokoban.Controller
                 [new Tuple<Keys, Direction>(Keys.Down, Direction.Down)] = false,
             };
         }
-        public void KeyPressHandler(GameProcessController controller)
+        public void KeyPressHandler(GameModel game)
         {
             foreach(var key in pressedKey.Keys.ToList())
             {
                 if(Keyboard.GetState().IsKeyDown(key.Item1) && !pressedKey[key])
                 {
                     pressedKey[key] = true;
-                    controller.Move(key.Item2);
+                    game.Move(key.Item2);
                 }
                 if(Keyboard.GetState().IsKeyUp(key.Item1))
                 {

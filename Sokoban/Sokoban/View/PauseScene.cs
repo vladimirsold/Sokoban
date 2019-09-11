@@ -15,6 +15,7 @@ namespace View
     {
         public event Action ContinueButtonPressed;
         public event Action MainMenuButtonPressed;
+        public event Action RestartButtonPressed;
         private readonly Panel pausePanel;
         public Pause(ContentManager content) : base(content)
         {
@@ -29,7 +30,16 @@ namespace View
                         UserInterface.Active.RemoveEntity(pausePanel);
                         ContinueButtonPressed?.Invoke();
                     }
-                }); 
+                });
+            pausePanel.AddChild(
+                new Button("Restart")
+                {
+                    OnClick = (Entity btn) =>
+                    {
+                        UserInterface.Active.RemoveEntity(pausePanel);
+                        RestartButtonPressed?.Invoke();
+                    }
+                });
             pausePanel.AddChild(
                 new Button("Main Menu")
                 {
@@ -39,6 +49,7 @@ namespace View
                         MainMenuButtonPressed?.Invoke();
                     }
                 });
+           
         }
         public void CallPause() => UserInterface.Active.AddEntity(pausePanel);
         public override void SetVisibility(bool value) => pausePanel.Visible = value; 

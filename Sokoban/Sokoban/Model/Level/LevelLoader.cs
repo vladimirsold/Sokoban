@@ -6,7 +6,7 @@ namespace Sokoban.Model
 {
     class LevelLoader
     {     
-        public static ValueTuple<HashSet<Wall>, HashSet<Box>, HashSet<CellForBox>, Storekeeper, Vector> LoadLevel(Level level)
+        public static (HashSet<Wall>, HashSet<Box>, HashSet<CellForBox>, Storekeeper, Vector) LoadLevel(Level level)
         {
             var walls = new HashSet<Wall>();
             var boxes = new HashSet<Box>();

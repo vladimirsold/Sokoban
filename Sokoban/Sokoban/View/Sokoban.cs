@@ -6,13 +6,15 @@ using System.Collections.Generic;
 
 using GeonBit.UI;
 using View;
+using Sokoban.Controller;
+using Sokoban.Model;
 
 namespace Sokoban
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Sokoban : Game
+    public class SokobanGame : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -23,7 +25,9 @@ namespace Sokoban
         MainMenu mainMenu;
         Pause pause;
         IScene currentScene;
-        public Sokoban()
+        GameProcessUIController uiController { get; set; }
+        GameModel gameModel;
+        public SokobanGame()
         {
             graphics = new GraphicsDeviceManager(this);
 
@@ -62,15 +66,22 @@ namespace Sokoban
             ContentLoader = new ContentLoader(Content);
             pause = new Pause(Content);
             mainMenu = new MainMenu(Content);
-            gameScene = new GameScene(graphics, ContentLoader, settings);          
+            gameModel = new GameModel();
+            uiController = new GameProcessUIController(gameModel);
             mainMenu.StartButtonPressed += () =>
             {
-                gameScene = new GameScene(graphics, ContentLoader, settings);
+                uiController.LoadLevel(new Level(Series.ThinkingRabbitOriginal, 0));
+                gameScene = new GameScene(graphics, ContentLoader, settings, gameModel);
                 currentScene = gameScene;
             };
             mainMenu.ExitButtonPressed += Exit;
             pause.ContinueButtonPressed += () => currentScene = gameScene;
             pause.MainMenuButtonPressed += mainMenu.CallMenu;
+            pause.RestartButtonPressed += () =>
+            {
+                uiController.Restart();
+                currentScene = gameScene;
+            };
             currentScene = mainMenu;
         }
 

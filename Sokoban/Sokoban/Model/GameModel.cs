@@ -35,6 +35,7 @@ namespace Sokoban.Model
         public void Restart()
         {
             LoadLevel(CurrentLevel);
+            LevelCompleted();
         }
 
         public void StartNextLevel()
