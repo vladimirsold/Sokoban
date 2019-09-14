@@ -14,7 +14,7 @@ namespace Sokoban.Controller
         GameModel gameModel; 
         public GameProcessUIController(GameModel gameModel)
         {
-            this.gameModel = gameModel;
+            this.gameModel = gameModel; 
         }     
 
         public void Restart()

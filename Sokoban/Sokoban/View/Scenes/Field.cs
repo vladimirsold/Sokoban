@@ -10,22 +10,30 @@ namespace View
 {
     class Field
     {
-        private readonly int blockSize;
-        private readonly Point pointDraw;
+        private int blockSize;
+        public  Point StartPointDraw { get; private set; }
         private readonly Dictionary<TextureID, Texture2D> textureBlocks;
-        private GameModel gameProcess;
-        public Field(GameModel gameProcess, Dictionary<TextureID, Texture2D> textureBlocks, GraphicsDeviceManager graphics, int defaultBlockSize)
+        private readonly GameModel gameProcess;
+        private readonly GraphicsDeviceManager graphics;
+        public Field(GameModel gameProcess, Dictionary<TextureID, Texture2D> textureBlocks, GraphicsDeviceManager graphics)
         {
+           
             this.textureBlocks = textureBlocks;
             this.gameProcess = gameProcess;
-            var possibleSizeBlock = new int[]{graphics.PreferredBackBufferWidth / gameProcess.FieldSize.X,
-                graphics.PreferredBackBufferHeight / (gameProcess.FieldSize.Y + 1), defaultBlockSize};
-            blockSize = possibleSizeBlock.Min();           
-            var pointX = (graphics.PreferredBackBufferWidth - gameProcess.FieldSize.X * blockSize) / 2;
-            var pointY = (graphics.PreferredBackBufferHeight - gameProcess.FieldSize.Y * blockSize) / 2;
-            pointDraw = new Point(pointX, pointY);
+            this.graphics = graphics;
+            Update();
         }
 
+        public void Update()
+        {
+            var defaultBlockSize = Settings.GetSettings().DefaultBlockSize;
+            var possibleSizeBlock = new int[]{graphics.PreferredBackBufferWidth / gameProcess.FieldSize.X,
+                graphics.PreferredBackBufferHeight / (gameProcess.FieldSize.Y + 1), defaultBlockSize};
+            blockSize = possibleSizeBlock.Min();
+            var pointX = (graphics.PreferredBackBufferWidth - gameProcess.FieldSize.X * blockSize) / 2;
+            var pointY = (graphics.PreferredBackBufferHeight - gameProcess.FieldSize.Y * blockSize) / 2;
+            StartPointDraw = new Point(pointX, pointY);
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
@@ -71,7 +79,7 @@ namespace View
   
         Rectangle GetRectangleMatchingGameObject(GameObject gameObject)
         {
-            return new Rectangle(gameObject.X * blockSize + pointDraw.X, gameObject.Y * blockSize + pointDraw.Y, blockSize, blockSize);
+            return new Rectangle(gameObject.X * blockSize + StartPointDraw.X, gameObject.Y * blockSize + StartPointDraw.Y, blockSize, blockSize);
         }
     }
 }

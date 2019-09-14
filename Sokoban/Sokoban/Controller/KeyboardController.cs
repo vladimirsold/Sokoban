@@ -10,7 +10,7 @@ namespace Sokoban.Controller
 {
     class KeyboardController
     {
-        private Dictionary<Tuple<Keys, Direction>, bool> pressedKey;
+        private readonly Dictionary<Tuple<Keys, Direction>, bool> pressedKey;
 
         public KeyboardController()
         {

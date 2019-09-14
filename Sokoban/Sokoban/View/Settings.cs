@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sokoban
+namespace View
 {
     class Settings
     {
@@ -15,7 +15,7 @@ namespace Sokoban
 
         Settings()
         {
-            DefaultBlockSize = 32;
+            DefaultBlockSize = 40;
             HeightWindow = 900;
             WidthWindow = 1200;
         }

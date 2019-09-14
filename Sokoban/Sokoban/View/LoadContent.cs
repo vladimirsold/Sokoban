@@ -2,19 +2,26 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Sokoban;
-
+using Microsoft.Xna.Framework.Media;
 
 namespace View
-{ 
-    class ContentLoader
+{
+    /// <summary>
+    /// Contains all of downloadable content
+    /// </summary>
+    class LoadedContent
     {
-        public Dictionary<TextureID, Texture2D> TextureBlocks { get; private set; }
-        public SpriteFont Font { get; private set; }
+        public readonly Dictionary<TextureID, Texture2D> BlocksTextures;
+        public readonly Song BackgroundMusic;
+        public readonly SpriteFont Font;
+        public readonly Texture2D TextureBackground;
 
-        public ContentLoader(ContentManager content)
+        public LoadedContent(ContentManager content)
         {
+            BackgroundMusic = content.Load<Song>("song");
             Font = content.Load<SpriteFont>("Fonts/Font");
-            TextureBlocks = new Dictionary<TextureID, Texture2D>
+            TextureBackground = content.Load<Texture2D>("background");
+            BlocksTextures = new Dictionary<TextureID, Texture2D>
             {
                 [TextureID.Wall] = content.Load<Texture2D>("Blocks/block_05"),
                 [TextureID.PlayerTurnedForward] = content.Load<Texture2D>("Player/Forward"),

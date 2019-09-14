@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -13,9 +14,10 @@ namespace Sokoban.Model
             var cells = new HashSet<CellForBox>();
             Vector fieldSize = null; 
             Storekeeper storekeeper = null;
-            try
+            StreamReader fileReader = LoadSeries(level.Series);
+            using(fileReader)
             {
-                StreamReader fileReader = LoadSeries(level.Series);
+                
                 while(!fileReader.ReadLine().Contains($"Maze: {level.NumberOfLevel}"))
                 {
                     ;
@@ -54,10 +56,6 @@ namespace Sokoban.Model
                         }
                     }
                 }
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.Message);
             }
             return (walls, boxes, cells, storekeeper, fieldSize);
         }

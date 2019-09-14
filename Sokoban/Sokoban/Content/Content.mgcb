@@ -5004,3 +5004,9 @@
 /processorParam:TextureFormat=Color
 /build:Player/Right.png
 
+#begin song.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:song.mp3
+

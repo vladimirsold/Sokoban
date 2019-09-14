@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Sokoban.Model
 {
 
-    class GameModel : ISokobanGameModel
+    class GameModel
     {
         public event Action LevelCompleted;
         public Level CurrentLevel { get; private set; }

@@ -1,15 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
-
-
 using GeonBit.UI;
-using View;
-using Sokoban.Controller;
-using Sokoban.Model;
+using Microsoft.Xna.Framework.Media;
 
-namespace Sokoban
+namespace View
 {
     /// <summary>
     /// This is the main type for your game.
@@ -18,15 +12,12 @@ namespace Sokoban
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D TextureBackground { get; set; }
-        ContentLoader ContentLoader { get; set; }
-        private Settings settings;
-        GameScene gameScene;
-        MainMenu mainMenu;
-        Pause pause;
-        IScene currentScene;
-        GameProcessUIController uiController { get; set; }
-        GameModel gameModel;
+
+        LoadedContent loadedContent;
+        Settings settings;
+        SceneManager scenes;
+
+
         public SokobanGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -49,7 +40,7 @@ namespace Sokoban
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize()
-        {
+        {  
             Content.RootDirectory = "Content";
             base.Initialize();
         }
@@ -62,27 +53,12 @@ namespace Sokoban
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            TextureBackground = Content.Load<Texture2D>("background");
-            ContentLoader = new ContentLoader(Content);
-            pause = new Pause(Content);
-            mainMenu = new MainMenu(Content);
-            gameModel = new GameModel();
-            uiController = new GameProcessUIController(gameModel);
-            mainMenu.StartButtonPressed += () =>
-            {
-                uiController.LoadLevel(new Level(Series.ThinkingRabbitOriginal, 0));
-                gameScene = new GameScene(graphics, ContentLoader, settings, gameModel);
-                currentScene = gameScene;
-            };
-            mainMenu.ExitButtonPressed += Exit;
-            pause.ContinueButtonPressed += () => currentScene = gameScene;
-            pause.MainMenuButtonPressed += mainMenu.CallMenu;
-            pause.RestartButtonPressed += () =>
-            {
-                uiController.Restart();
-                currentScene = gameScene;
-            };
-            currentScene = mainMenu;
+            
+            loadedContent = new LoadedContent(Content);
+            scenes = new SceneManager(Content, loadedContent, graphics);
+            scenes.Exit += Exit;
+            MediaPlayer.Play(loadedContent.BackgroundMusic);
+            MediaPlayer.IsRepeating = true;
         }
 
         /// <summary>
@@ -101,17 +77,9 @@ namespace Sokoban
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if(Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                if(currentScene is GameScene)
-                {
-                    pause.CallPause();
-                    currentScene = pause;
-                }
-            }
-            currentScene.Update(gameTime);
+            scenes.Update(gameTime);
             base.Update(gameTime);
-            UserInterface.Active.Update(gameTime);
+            
         }
 
         /// <summary>
@@ -121,11 +89,7 @@ namespace Sokoban
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.White);
-            spriteBatch.Begin();
-            spriteBatch.Draw(TextureBackground, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
-            spriteBatch.End();
-            currentScene.Draw(spriteBatch);
-            UserInterface.Active.Draw(spriteBatch);
+            scenes.Draw(spriteBatch);
             base.Draw(gameTime);
         }
     }

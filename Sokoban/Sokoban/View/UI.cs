@@ -8,11 +8,9 @@ namespace View
 {
     abstract class UI : IScene
     {
-        private ContentManager content;
-        public UI(ContentManager content)
-        {
-            this.content = content;
-            UserInterface.Initialize(content, BuiltinThemes.editor);   
+        public UI(ContentManager contentManager)
+        { 
+            UserInterface.Initialize(contentManager, BuiltinThemes.editor);   
         }
 
         public abstract void SetVisibility(bool value);
