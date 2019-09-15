@@ -8,11 +8,8 @@ namespace Sokoban.Model
 {
     abstract class CollisionObject : GameObject
     {
-        public CollisionObject(int x, int y) : base(x, y)
-        {
-            X = x;
-            Y = y;
-        }
+        public CollisionObject(int x, int y) : base(x, y) { }
+
         public bool IsCollision(CollisionObject gameObject, Direction direction)
         {  
             switch(direction)

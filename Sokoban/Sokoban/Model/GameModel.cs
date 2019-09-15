@@ -62,7 +62,7 @@ namespace Sokoban.Model
             ++Steps;
         }
 
-        private bool TryMoveBox(Box stopedBox, Direction direction)
+        bool TryMoveBox(Box stopedBox, Direction direction)
         {
             var collisionObjects = new HashSet<CollisionObject>(Boxes);
             collisionObjects.UnionWith(Walls);

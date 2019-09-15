@@ -8,6 +8,7 @@ namespace Sokoban.Model
 {
     enum Series
     {
+        Test,
         ThinkingRabbitOriginal
     }
 }

@@ -62,7 +62,12 @@ namespace Sokoban.Model
 
         static StreamReader LoadSeries(Series series)
         {
-            return new StreamReader("C:\\Users\\Владимир\\source\\repos\\vladimirsold\\Sokoban\\Sokoban\\Sokoban\\Content\\Levels.txt");
+            switch(series)
+            {
+                default:  return new StreamReader("C:\\Users\\Владимир\\source\\repos\\vladimirsold\\Sokoban\\Sokoban\\Sokoban\\Content\\ThinkingRabbitOriginal.txt");
+                case Series.Test:
+                    return new StreamReader("C:\\Users\\Владимир\\source\\repos\\vladimirsold\\Sokoban\\Sokoban\\Sokoban\\Content\\Test.txt");
+            }
         }
 
         public static Level NextLevel(Level level)
