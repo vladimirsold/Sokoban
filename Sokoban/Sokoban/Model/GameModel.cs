@@ -10,12 +10,14 @@ namespace Sokoban.Model
     {
         public event Action LevelCompleted;
         public Level CurrentLevel { get; private set; }
-        public int Steps { get; private set; }      
+        public int Steps { get; private set; }
+
         private  DateTime begin; 
         public HashSet<Wall> Walls { get; private set; }
         public HashSet<Box> Boxes { get; private set; }
         public HashSet<CellForBox> CellsForBoxes { get; private set; }
         public Storekeeper Storekeeper { get; private set; }
+        public GameObject Field { get; private set; }
         public Vector FieldSize { get; private set; }
         public TimeSpan TimeSpan
         {

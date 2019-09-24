@@ -12,9 +12,9 @@ namespace Sokoban.Model
             var walls = new HashSet<Wall>();
             var boxes = new HashSet<Box>();
             var cells = new HashSet<CellForBox>();
-            Vector fieldSize = null; 
             Storekeeper storekeeper = null;
             StreamReader fileReader = LoadSeries(level.Series);
+            GameObject[,] field;
             using(fileReader)
             {
                 
@@ -26,7 +26,7 @@ namespace Sokoban.Model
                 fileReader.ReadLine();
                 int x = int.Parse(fileReader.ReadLine().Split(' ')[2]);
                 int y = int.Parse(fileReader.ReadLine().Split(' ')[2]);
-                fieldSize = new Vector(x, y);
+                field = new GameObject[x, y];
                 fileReader.ReadLine();
                 fileReader.ReadLine();
                 fileReader.ReadLine();
@@ -38,13 +38,13 @@ namespace Sokoban.Model
                         switch(read[j])
                         {
                             case 'X':
-                                walls.Add(new Wall(j, i));
+                                field[i, j] = new Wall(i, j);
                                 break;
                             case '@':
-                                storekeeper = new Storekeeper(j, i);
+                                field[i, j] = new Storekeeper(i, j);
                                 break;
                             case '*':
-                                boxes.Add(new Box(j, i));
+                                field[i, j] = new Box(i, j);
                                 break;
                             case '.':
                                 cells.Add(new CellForBox(j, i));
