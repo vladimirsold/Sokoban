@@ -2,72 +2,41 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
 
 namespace Sokoban.Model
 {
     class LevelLoader
     {     
-        public static (HashSet<Wall>, HashSet<Box>, HashSet<CellForBox>, Storekeeper, Vector) LoadLevel(Level level)
+        public static Field LoadLevel(Level level)
         {
-            var walls = new HashSet<Wall>();
-            var boxes = new HashSet<Box>();
-            var cells = new HashSet<CellForBox>();
-            Storekeeper storekeeper = null;
-            StreamReader fileReader = LoadSeries(level.Series);
-            GameObject[,] field;
-            using(fileReader)
-            {
-                
-                while(!fileReader.ReadLine().Contains($"Maze: {level.NumberOfLevel}"))
-                {
-                    ;
-                }
-
-                fileReader.ReadLine();
-                int x = int.Parse(fileReader.ReadLine().Split(' ')[2]);
-                int y = int.Parse(fileReader.ReadLine().Split(' ')[2]);
-                field = new GameObject[x, y];
-                fileReader.ReadLine();
-                fileReader.ReadLine();
-                fileReader.ReadLine();
-                for(int i = 0; i < y; i++)
-                {
-                    string read = fileReader.ReadLine();
-                    for(int j = 0; j < read.Length; j++)
-                    {
-                        switch(read[j])
-                        {
-                            case 'X':
-                                field[i, j] = new Wall(i, j);
-                                break;
-                            case '@':
-                                field[i, j] = new Storekeeper(i, j);
-                                break;
-                            case '*':
-                                field[i, j] = new Box(i, j);
-                                break;
-                            case '.':
-                                cells.Add(new CellForBox(j, i));
-                                break;
-                            case '&':
-                                cells.Add(new CellForBox(j, i));
-                                boxes.Add(new Box(j, i));
-                                break;
-                        }
-                    }
-                }
-            }
-            return (walls, boxes, cells, storekeeper, fieldSize);
+            XmlDocument serie = LoadSerie(level.Series);
+            var field = LoadLevelFromSerie(serie);
+            return field;
         }
 
-        static StreamReader LoadSeries(Series series)
+        private static Field LoadLevelFromSerie(XmlDocument serie)
         {
-            switch(series)
+            var root = serie.DocumentElement;
+            foreach(var )
+
+        }
+
+        static XmlDocument LoadSerie(Series serie)
+        {
+            XmlDocument xmlSerie = new XmlDocument();
+            string path;
+            switch(serie)
             {
-                default:  return new StreamReader("C:\\Users\\Владимир\\source\\repos\\vladimirsold\\Sokoban\\Sokoban\\Sokoban\\Content\\ThinkingRabbitOriginal.txt");
+                default:
+                    path ="C:\\Users\\Владимир\\source\\repos\\vladimirsold\\Sokoban\\Sokoban\\Sokoban\\Content\\ThinkingRabbitOriginal.txt";
+                    break;
                 case Series.Test:
-                    return new StreamReader("C:\\Users\\Владимир\\source\\repos\\vladimirsold\\Sokoban\\Sokoban\\Sokoban\\Content\\Test.txt");
+                    path ="C:\\Users\\Владимир\\source\\repos\\vladimirsold\\Sokoban\\Sokoban\\Sokoban\\Content\\Test.txt";
+                    break;
             }
+            xmlSerie.Load(path);
+            return xmlSerie;
         }
 
         public static Level NextLevel(Level level)

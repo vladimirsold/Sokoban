@@ -59,6 +59,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Model\Field.cs" />
     <Compile Include="Model\Level\LevelManager.cs" />
     <Compile Include="Model\GameModel_Test.cs" />
     <Compile Include="View\LoadContent.cs" />
