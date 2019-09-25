@@ -57,8 +57,8 @@ namespace View
             loadedContent = new LoadedContent(Content);
             scenes = new SceneManager(Content, loadedContent, graphics);
             scenes.Exit += Exit;
-            MediaPlayer.Play(loadedContent.BackgroundMusic);
-            MediaPlayer.IsRepeating = true;
+            //MediaPlayer.Play(loadedContent.BackgroundMusic);
+            //MediaPlayer.IsRepeating = true;
         }
 
         /// <summary>

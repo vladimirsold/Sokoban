@@ -9,15 +9,22 @@ namespace Sokoban.Model
 {
     class CellForBox : GameObject
     {
-        public bool IsEmpty { get; private set; }
-        public CellForBox(int x, int y) : base(x, y)
+        public readonly int X;
+        public readonly int Y;
+        readonly GameObject[,] storeroom;
+        public bool IsEmpty
         {
-            
+            get
+            {
+                return !(storeroom[X, Y] is Box);
+            }
+        }
+        public CellForBox(int x, int y, GameObject[,] storeroom)
+        {
+            X = x;
+            Y = y;
+            this.storeroom = storeroom;
         }
 
-        public void SetState(bool state)
-        {
-            IsEmpty = state;
-        }
     }
 }

@@ -7,23 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Sokoban.Model
 {
-    class Box : CollisionObject, IMovable
+    class Box : GameObject
     {
-        public Box(int x, int y) : base(x, y) { }
-
-        public void Move(Direction direction)
-        {
-            switch(direction)
-            {
-                case Direction.Left: --X;
-                    break;
-                case Direction.Right: ++X;
-                    break;
-                case Direction.Up: --Y;
-                    break;
-                case Direction.Down: ++Y;
-                    break;
-            }
-        }
+ 
     }
 }

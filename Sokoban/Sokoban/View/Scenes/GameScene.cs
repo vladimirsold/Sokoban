@@ -30,7 +30,7 @@ namespace View.Scenes
             this.graphics = graphics;
             gameModel = new GameModel();
             uiController = new GameProcessUIController(gameModel);
-            uiController.LoadLevel(new Level(Series.ThinkingRabbitOriginal, 0));
+            uiController.LoadLevel(new Level(Series.ThinkingRabbitOriginal, "Go gack"));
             field = new Field(gameModel, textureBlocks, graphics);
             gameModel.LevelCompleted += field.Update;             
         }

@@ -9,12 +9,12 @@ namespace Sokoban.Model
     class Level
     {
         public Series Series { get; private set; }
-        public int NumberOfLevel { get; private set; }
+        public string Name { get; private set; }
 
-        public Level(Series series, int numberOfLEvel)
+        public Level(Series series, string name)
         {
             Series = series;
-            NumberOfLevel = numberOfLEvel;
+            Name = name;
         }
     }
 }

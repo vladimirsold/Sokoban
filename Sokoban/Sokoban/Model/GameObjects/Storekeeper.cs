@@ -7,28 +7,62 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Sokoban.Model
 {
-    class Storekeeper : CollisionObject, IMovable
+    class Storekeeper : GameObject
     {
+        public Vector Coordinates { get; private set; }
         public Direction State { get; private set; }
-        public Storekeeper(int x, int y) : base(x, y)
+        readonly GameObject[,] storeroom;
+        public Storekeeper(Vector coordinates, GameObject[,] storeroom)
         {
+            Coordinates = coordinates;
             State = Direction.Down;
+            this.storeroom = storeroom;
         }
 
-        public void Move(Direction direction)
+        public void TryMove(Direction direction)
         {
+            var coordsToMove = new Vector(Coordinates, direction);
             State = direction;
-            switch(direction)
+            if(IsWallCollision(coordsToMove))
             {
-                case Direction.Left: --X;  
-                    break;
-                case Direction.Right: ++X;      
-                    break;
-                case Direction.Up: --Y; 
-                    break;
-                case Direction.Down: ++Y;    
-                    break;
+                return;
             }
+            if(IsBoxCollision(coordsToMove))
+            {
+                if(!TryMoveBox(coordsToMove, direction))
+                {
+                    return;
+                }
+            }
+            Coordinates = coordsToMove;
+  
+        }
+
+        private bool TryMoveBox(Vector coordsOfBox, Direction direction)
+        { 
+            var coordsToMoveBox = new Vector(coordsOfBox, direction);
+            if(storeroom[coordsToMoveBox.X, coordsToMoveBox.Y] == null)
+            {
+                MoveBox(coordsOfBox,coordsToMoveBox);
+                return true;
+            }
+            return false;
+        }
+
+        private void MoveBox(Vector coordsOfBox, Vector coordsToMoveBox)
+        {
+            storeroom[coordsToMoveBox.X, coordsToMoveBox.Y] = storeroom[coordsOfBox.X, coordsOfBox.Y];
+            storeroom[coordsOfBox.X, coordsOfBox.Y] = null;
+        }
+
+        private bool IsBoxCollision(Vector coordsToMove)
+        {
+            return storeroom[coordsToMove.X, coordsToMove.Y] is Box;
+        }
+
+        private bool IsWallCollision(Vector coordsToMove)
+        {
+            return storeroom[coordsToMove.X, coordsToMove.Y] is Wall;
         }
     }
 }

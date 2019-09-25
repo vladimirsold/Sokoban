@@ -6,7 +6,7 @@ namespace Sokoban.Model
     {
         internal static Level NextLevel(Level currentLevel)
         {
-            return new Level(currentLevel.Series, currentLevel.NumberOfLevel + 1);
+            return new Level(currentLevel.Series, currentLevel.Name);
         }
     }
 }

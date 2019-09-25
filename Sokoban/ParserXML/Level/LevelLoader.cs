@@ -19,7 +19,11 @@ namespace Sokoban.Model
             XmlNode nodeOfLevel = serie.SelectSingleNode($"//Level[@Id ='{levelName}']");
             int width = int.Parse(nodeOfLevel.Attributes["Width"].Value);
             int height = int.Parse(nodeOfLevel.Attributes["Height"].Value);
-            
+            foreach(XmlNode e in nodeOfLevel.ChildNodes)
+            {
+                Console.WriteLine(e.InnerText);
+            }
+
 
             Console.WriteLine(width + " " + height);
         }

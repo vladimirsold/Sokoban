@@ -10,13 +10,6 @@ namespace Sokoban.Model
 {
     abstract class GameObject
     {
-        public int X { get; protected set; }
-        public int Y { get; protected set; }
-
-        public GameObject(int x, int y)
-        {
-            X = x;
-            Y = y; 
-        }
+ 
     }
 }

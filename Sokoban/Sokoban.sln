@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokoban", "Sokoban\Sokoban.csproj", "{B61E2528-DB30-4AD9-BD97-581155C0E15F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserXML", "ParserXML\ParserXML.csproj", "{FDF2260E-3848-4E97-8C38-E90E4E7FDD7C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,14 +19,6 @@ Global
 		{B61E2528-DB30-4AD9-BD97-581155C0E15F}.Release|Any CPU.ActiveCfg = Release|x86
 		{B61E2528-DB30-4AD9-BD97-581155C0E15F}.Release|x86.ActiveCfg = Release|x86
 		{B61E2528-DB30-4AD9-BD97-581155C0E15F}.Release|x86.Build.0 = Release|x86
-		{FDF2260E-3848-4E97-8C38-E90E4E7FDD7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FDF2260E-3848-4E97-8C38-E90E4E7FDD7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FDF2260E-3848-4E97-8C38-E90E4E7FDD7C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{FDF2260E-3848-4E97-8C38-E90E4E7FDD7C}.Debug|x86.Build.0 = Debug|Any CPU
-		{FDF2260E-3848-4E97-8C38-E90E4E7FDD7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FDF2260E-3848-4E97-8C38-E90E4E7FDD7C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FDF2260E-3848-4E97-8C38-E90E4E7FDD7C}.Release|x86.ActiveCfg = Release|Any CPU
-		{FDF2260E-3848-4E97-8C38-E90E4E7FDD7C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

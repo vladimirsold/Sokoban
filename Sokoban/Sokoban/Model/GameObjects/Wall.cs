@@ -7,8 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Sokoban.Model
 {
-    class Wall : CollisionObject
+    class Wall : GameObject
     {
-        public Wall(int x, int y) : base(x, y) { }
+
     }
 }
