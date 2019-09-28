@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -7,7 +6,7 @@ using System.Xml;
 namespace Sokoban.Model
 {
     class LevelLoader
-    {     
+    {
         public static Field LoadLevel(Level level)
         {
             XmlDocument serie = LoadSerie(level.Series);
@@ -21,7 +20,7 @@ namespace Sokoban.Model
             int width = int.Parse(nodeOfLevel.Attributes["Width"].Value);
             int height = int.Parse(nodeOfLevel.Attributes["Height"].Value);
             var size = new Vector(height, width);
-            var storeroom = new GameObject[height,width];
+            var storeroom = new GameObject[height, width];
             Storekeeper storekeeper = null;
             var cellsForBoxes = new HashSet<CellForBox>();
             for(var i = 0; i < height; i++)
@@ -34,7 +33,7 @@ namespace Sokoban.Model
                     {
                         case '#':
                             newObject = new Wall();
-                            break; 
+                            break;
                         case '$':
                             newObject = new Box();
                             break;
