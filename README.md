@@ -18,3 +18,4 @@ Pet project
   - Таблица лидеров
   - Возможность отменить последний ход
  
+![](https://github.com/vladimirsold/Sokoban/blob/master/sokoban.png)
