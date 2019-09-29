@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Sokoban.Model
 {
-    class Level
+    public class Level
     {
-        public Series Series { get; private set; }
+        public string SeriesName { get; private set; }
         public string Name { get; private set; }
 
-        public Level(Series series, string name)
+        public Level(string series, string name)
         {
-            Series = series;
+            SeriesName = series;
             Name = name;
         }
     }

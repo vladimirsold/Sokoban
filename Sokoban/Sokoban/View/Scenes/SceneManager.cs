@@ -4,46 +4,60 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Sokoban.Model;
+using Sokoban.View.Scenes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using View.Scenes;
 
-namespace View
+namespace Sokoban.View.Scenes
 {
     class SceneManager
     {
         IScene currentScene;
-        GameScene gameScene;
-        MainMenu mainMenu;
-        Pause pause;
+        readonly GameModel gameModel;
+        readonly GameScene gameScene;
+        readonly MainMenu mainMenu;
+        readonly Pause pause;
+        readonly LevelSelect levelSelect;
         public event Action Exit;
-        GraphicsDeviceManager graphics;
+        readonly GraphicsDeviceManager graphics;
         public readonly Texture2D textureBackground;
 
 
         public SceneManager(ContentManager contentManager, LoadedContent loadedContent, GraphicsDeviceManager graphics)
         {
+            UserInterface.Initialize(contentManager, BuiltinThemes.editor);
+            gameModel = new GameModel();
             this.graphics = graphics;
-            pause = new Pause(contentManager);
-            mainMenu = new MainMenu(contentManager);
-            textureBackground = loadedContent.TextureBackground;
-            mainMenu.StartButtonPressed += () =>
+            pause = new Pause();
+            mainMenu = new MainMenu();
+            gameScene = new GameScene(graphics, loadedContent, gameModel);
+            levelSelect  = new LevelSelect(gameModel, graphics, loadedContent);
+            gameModel.LevelCompleted += () =>
             {
-                gameScene = new GameScene(graphics, loadedContent);  
-                currentScene = gameScene;
+                currentScene = levelSelect;
+                levelSelect.Call();
+            };
+            textureBackground = loadedContent.TextureBackground;
+
+            mainMenu.StartButtonPressed += () =>
+            {  
+                currentScene = levelSelect;
+                levelSelect.Call();
             };
             mainMenu.ExitButtonPressed += ()=>Exit();
+
+            levelSelect.GameStart += () =>
+            {
+                currentScene = gameScene;
+            };
             pause.ContinueButtonPressed += () => currentScene = gameScene;
-            pause.MainMenuButtonPressed += mainMenu.CallMenu;
+            pause.MainMenuButtonPressed += mainMenu.Call;
             pause.RestartButtonPressed += () =>
             {
                 gameScene.uiController.Restart();
                 currentScene = gameScene;
             };
+
             currentScene = mainMenu;
         }
         public void Update(GameTime gameTime)
@@ -54,6 +68,7 @@ namespace View
                 {
                     pause.CallPause();
                     currentScene = pause;
+                    
                 }
             }
             currentScene.Update(gameTime);

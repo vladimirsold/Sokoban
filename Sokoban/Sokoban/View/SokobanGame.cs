@@ -2,8 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using GeonBit.UI;
 using Microsoft.Xna.Framework.Media;
+using Sokoban.View.Scenes;
 
-namespace View
+namespace Sokoban.View
 {
     /// <summary>
     /// This is the main type for your game.

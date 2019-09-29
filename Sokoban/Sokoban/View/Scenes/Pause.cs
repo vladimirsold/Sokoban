@@ -1,25 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using GeonBit.UI;
 using GeonBit.UI.Entities;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 
+using Microsoft.Xna.Framework.Graphics;
 
-namespace View
+namespace Sokoban.View.Scenes
 {
-    class Pause : UI
+    class Pause : IScene
     {
         public event Action ContinueButtonPressed;
         public event Action MainMenuButtonPressed;
         public event Action RestartButtonPressed;
         private readonly Panel pausePanel;
-        public Pause(ContentManager content) : base(content)
+        public Pause()
         {
             pausePanel = new Panel(new Vector2(250, 400), PanelSkin.Default, Anchor.Center);
+            UserInterface.Active.AddEntity(pausePanel);
             pausePanel.AddChild(new Header("Pause"));
             pausePanel.AddChild(new HorizontalLine());
             pausePanel.AddChild(
@@ -27,7 +25,7 @@ namespace View
                 {
                     OnClick = (Entity btn) =>
                     {
-                        UserInterface.Active.RemoveEntity(pausePanel);
+                        pausePanel.Visible = false;
                         ContinueButtonPressed?.Invoke();
                     }
                 });
@@ -36,7 +34,7 @@ namespace View
                 {
                     OnClick = (Entity btn) =>
                     {
-                        UserInterface.Active.RemoveEntity(pausePanel);
+                        pausePanel.Visible = false;
                         RestartButtonPressed?.Invoke();
                     }
                 });
@@ -45,14 +43,25 @@ namespace View
                 {
                     OnClick = (Entity btn) =>
                     {
-                        UserInterface.Active.RemoveEntity(pausePanel);
+                        pausePanel.Visible = false;
                         MainMenuButtonPressed?.Invoke();
                     }
                 });
+            pausePanel.Visible = false;
+        }
+
+
+        public void CallPause() => pausePanel.Visible = true;
+
+        public void Update(GameTime gameTime)
+        {
            
         }
-        public void CallPause() => UserInterface.Active.AddEntity(pausePanel);
-        public override void SetVisibility(bool value) => pausePanel.Visible = value; 
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+           
+        }
     }
 }
 

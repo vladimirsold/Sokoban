@@ -2,29 +2,31 @@
 using GeonBit.UI.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 
-namespace View
+namespace Sokoban.View.Scenes
 {
-    class MainMenu : UI
+    class MainMenu : IScene
     {
         private readonly Panel menuPanel;
         public event Action StartButtonPressed;
         public event Action ExitButtonPressed;
-        public MainMenu(ContentManager content) : base(content)
+        public MainMenu()
             {
             menuPanel = new Panel(new Vector2(250, 400), PanelSkin.Default, Anchor.Center);
             UserInterface.Active.AddEntity(menuPanel);
-            // add title and text
+
             menuPanel.AddChild(new Header("Sokoban"));
             menuPanel.AddChild(new HorizontalLine());
 
-            // add a button at the bottom
+
             var startButton = new Button("Start")
             {
                 OnClick = (Entity btn) =>
                 {
-                    UserInterface.Active.RemoveEntity(menuPanel);
+                    //UserInterface.Active.RemoveEntity(menuPanel);
+                    menuPanel.Visible = false;
                     StartButtonPressed?.Invoke();
                 }
             };
@@ -47,10 +49,19 @@ namespace View
             };
             menuPanel.AddChild(exitButton);
         }
-        public void CallMenu()
+        public void Call()
         {
-            UserInterface.Active.AddEntity(menuPanel);
+            menuPanel.Visible = true;
         }
-        public override void SetVisibility(bool value) => menuPanel.Visible = value; 
+
+        public void Update(GameTime gameTime)
+        {
+            
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            
+        }
     }
 }

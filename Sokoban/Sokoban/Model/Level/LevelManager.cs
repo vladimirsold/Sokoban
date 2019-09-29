@@ -1,12 +1,54 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml;
 
 namespace Sokoban.Model
 {
-    internal class LevelManager
+    public class LevelManager
     {
+        readonly DirectoryInfo series;
+        public Dictionary<string, List<string>> SeriesInfo { get; private set; }
+        public string SeriesPath { get { return series.FullName; } }
+        
+        public LevelManager()
+        {
+            string path = Directory.GetDirectoryRoot(".");
+            series = new DirectoryInfo(path).GetDirectories().Single(dir => dir.Name.Contains("Serie"));
+            SeriesInfo = LoadSeries(series);
+        }
+  
+        public Level GetLevel(string serie, string levelName)
+        { 
+            return new Level(serie, levelName);
+        }
+        private Dictionary<string, List<string>> LoadSeries(DirectoryInfo series)
+        {
+            var seriesInfo = new Dictionary<string, List<string>>();
+            foreach(var serie in series.GetFiles())
+            {
+                var name = Path.GetFileNameWithoutExtension(serie.FullName);
+                seriesInfo[name] = GetLevelsNames(serie);
+            }
+            return seriesInfo;
+        }
+
+        private List<string> GetLevelsNames(FileInfo serie)
+        {
+            var xmlSerie = new XmlDocument();
+            xmlSerie.Load(serie.FullName);
+            var levelNames = new List<string>();
+            foreach(XmlNode level in xmlSerie.SelectNodes($"//Level"))
+            {
+                levelNames.Add(level.Attributes["Id"].Value);
+            }
+            return levelNames;
+        }
+
         internal static Level NextLevel(Level currentLevel)
         {
-            return new Level(currentLevel.Series, currentLevel.Name);
+            throw new NotImplementedException();
         }
     }
 }

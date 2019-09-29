@@ -1,79 +1,85 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 
 namespace Sokoban.Model
 {
-    class LevelLoader
+    public class LevelLoader
     {
-        public static Field LoadLevel(Level level)
+        public Storekeeper Storekeeper { get; private set; }
+        public Point Size { get; private set; }
+        public HashSet<CellForBox> CellsForBoxes { get; private set; }
+        public HashSet<Box> Boxes { get; private set; }
+        public HashSet<Wall> Walls { get; private set; }
+        public void Load(Level level)
         {
-            XmlDocument serie = LoadSerie(level.Series);
+            CellsForBoxes = new HashSet<CellForBox>();
+            Boxes = new HashSet<Box>();
+            Walls = new HashSet<Wall>();
+            XmlDocument serie = new XmlDocument();
+            serie.Load(GetPathToSerie(level.SeriesName));
             XmlNode nodeOfLevel = serie.SelectSingleNode($"//Level[@Id ='{level.Name}']");
-            Field field = CreateFieldFromNode(nodeOfLevel);
-            return field;
+            CreateGameObjectsFromNode(nodeOfLevel);
         }
 
-        private static Field CreateFieldFromNode(XmlNode nodeOfLevel)
+        string GetPathToSerie(string serie)
         {
-            int width = int.Parse(nodeOfLevel.Attributes["Width"].Value);
-            int height = int.Parse(nodeOfLevel.Attributes["Height"].Value);
-            var size = new Vector(height, width);
-            var storeroom = new GameObject[height, width];
-            Storekeeper storekeeper = null;
-            var cellsForBoxes = new HashSet<CellForBox>();
-            for(var i = 0; i < height; i++)
+            string path = Directory.GetDirectoryRoot(".");
+            var series = new DirectoryInfo(path).GetDirectories().Single(dir => dir.Name.Contains("Serie"));
+            var files = series.GetFiles();
+            var file = files.Single(x => x.Name.Contains(serie));
+            return file.FullName;
+        }
+
+        private void CreateGameObjectsFromNode(XmlNode nodeOfLevel)
+        {
+            SetSizeFromNode(nodeOfLevel);
+            for(var i = 0; i < Size.X; i++)
             {
                 var str = nodeOfLevel.ChildNodes[i].InnerText;
                 for(var j = 0; j < str.Length; j++)
                 {
-                    GameObject newObject = null;
-                    switch(str[j])
-                    {
-                        case '#':
-                            newObject = new Wall();
-                            break;
-                        case '$':
-                            newObject = new Box();
-                            break;
-                        case '*':
-                            newObject = new Box();
-                            cellsForBoxes.Add(new CellForBox(i, j, storeroom));
-                            break;
-                        case '.':
-                            cellsForBoxes.Add(new CellForBox(i, j, storeroom));
-                            break;
-                        case '+':
-                            cellsForBoxes.Add(new CellForBox(i, j, storeroom));
-                            storekeeper = new Storekeeper(new Vector(i, j), storeroom);
-                            break;
-                        case '@':
-                            storekeeper = new Storekeeper(new Vector(i, j), storeroom);
-                            break;
-                    }
-                    storeroom[i, j] = newObject;
+                    ParseGameObjects(str[j], new Point(i, j));
                 }
             }
-            Field field = new Field(storeroom, cellsForBoxes, storekeeper, size);
-            return field;
         }
 
-        static XmlDocument LoadSerie(Series serie)
+        private void ParseGameObjects(char symbol, Point coords)
         {
-            var xml = new XmlDocument();
-            string path;
-            switch(serie)
+            switch(symbol)
             {
-                default:
-                    path = "C:\\Users\\Владимир\\source\\repos\\vladimirsold\\Sokoban\\Sokoban\\Sokoban\\Content\\Aruba7.slc";
+                case '#':
+                    Walls.Add(new Wall(coords));
                     break;
-                case Series.Test:
-                    path = "C:\\Users\\Владимир\\source\\repos\\vladimirsold\\Sokoban\\Sokoban\\Sokoban\\Content\\Test.txt";
+                case '$':
+                    Boxes.Add(new Box(coords));
+                    break;
+                case '*':
+                    Boxes.Add(new Box(coords));
+                    var cell = new CellForBox(coords);
+                    cell.IsEmpty = false;
+                    CellsForBoxes.Add(cell);
+                    break;
+                case '.':
+                    CellsForBoxes.Add(new CellForBox(coords));
+                    break;
+                case '+':
+                    CellsForBoxes.Add(new CellForBox(coords));
+                    Storekeeper = new Storekeeper(coords);
+                    break;
+                case '@':
+                    Storekeeper = new Storekeeper(coords);
                     break;
             }
-            xml.Load(path);
-            return xml;
+        }
+
+        private void SetSizeFromNode(XmlNode nodeOfLevel)
+        {
+            int width = int.Parse(nodeOfLevel.Attributes["Width"].Value);
+            int height = int.Parse(nodeOfLevel.Attributes["Height"].Value);
+            Size = new Point(height, width);
         }
     }
 }

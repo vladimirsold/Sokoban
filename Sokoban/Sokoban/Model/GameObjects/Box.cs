@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Sokoban.Model
 {
-    class Box : GameObject
+    public class Box : GameObject
     {
- 
+        public Box(Point coords) : base(coords)
+        {
+
+        }
+
+        internal void Move(Point coordinates)
+        {
+            Coordinates = coordinates;
+        }
     }
 }

@@ -59,7 +59,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Model\Field.cs" />
+    <Compile Include="Model\Storeroom.cs" />
     <Compile Include="Model\Level\LevelManager.cs" />
     <Compile Include="View\LoadContent.cs" />
     <Compile Include="Model\Direction.cs" />
@@ -67,20 +67,18 @@
     <Compile Include="Model\GameObjects\CellForBox.cs" />
     <Compile Include="Controller\UIController.cs" />
     <Compile Include="Model\Level\Level.cs" />
-    <Compile Include="Model\Level\Series.cs" />
     <Compile Include="Model\GameObjects\GameObject.cs" />
     <Compile Include="Controller\KeyboardController.cs" />
     <Compile Include="Model\Level\LevelLoader.cs" />
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\GameObjects\Storekeeper.cs" />
-    <Compile Include="View\Scenes\DrawableGameObject.cs" />
     <Compile Include="View\Scenes\Field.cs" />
     <Compile Include="View\Scenes\GameScene.cs" />
     <Compile Include="View\Scenes\IScene.cs" />
+    <Compile Include="View\Scenes\LevelSelect.cs" />
     <Compile Include="View\Scenes\MainMenu.cs" />
     <Compile Include="View\Scenes\SceneManager.cs" />
-    <Compile Include="View\UI.cs" />
-    <Compile Include="View\Scenes\PauseScene.cs" />
+    <Compile Include="View\Scenes\Pause.cs" />
     <Compile Include="View\Settings.cs" />
     <Compile Include="View\SokobanGame.cs" />
     <Compile Include="Program.cs" />

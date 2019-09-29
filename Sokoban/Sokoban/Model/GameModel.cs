@@ -9,11 +9,9 @@ namespace Sokoban.Model
     class GameModel
     {
         public event Action LevelCompleted;
+        public event Action LevelLoaded;
         public Level CurrentLevel { get; private set; }
         public int Steps { get; private set; }
-
-        private  DateTime begin;
-        public Field Field { get; private set; }
         public TimeSpan TimeSpan
         {
             get
@@ -22,47 +20,58 @@ namespace Sokoban.Model
             }
         }
 
+        public Point SizeOfStoreroom
+        {
+            get
+            {
+                return storeroom.Size;
+            }
+        }
+
+        public LevelManager LevelManager => levelManager;
+
+        private readonly LevelManager levelManager;
+        private DateTime begin;
+        private readonly Storeroom storeroom;
+
+        public GameModel()
+        {
+            storeroom = new Storeroom(new LevelLoader());
+            storeroom.LevelCompleted += () =>
+            {
+                LevelCompleted();
+            };
+            levelManager = new LevelManager();
+        }
 
         public void LoadLevel(Level level)
         {
-            Field = LevelLoader.LoadLevel(level);
+            storeroom.LoadLevel(level);
             Steps = 0;
             begin = DateTime.Now;
             CurrentLevel = level;
+            LevelLoaded();
         }
 
         public void Restart()
         {
-            LoadLevel(CurrentLevel);
-            LevelCompleted();
+            LoadLevel(CurrentLevel);  
         }
 
-        public void StartNextLevel()
-        {
-            Level nextLevel = LevelManager.NextLevel(CurrentLevel);
-            LoadLevel(nextLevel);
-        }
 
         public void Move(Direction direction)
         {
-            Field.TryStorekeeperMove(direction);
+            storeroom.TryStorekeeperMove(direction);
             ++Steps;
         }
 
-    
-
-
-        bool IsAllCellsWithBox()
+        public IEnumerable<GameObject> GetAllGameObjects()
         {
-            return Field.CellForBoxes.All(cell => cell.IsEmpty);
+            return storeroom.GetAllGameObjects();
         }
-
-        public void Update()
+        public Dictionary<string, List<string>> GetLevels()
         {
-            if(IsAllCellsWithBox())
-            { 
-                LevelCompleted();
-            }
+            return LevelManager.SeriesInfo;
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sokoban.Model
 {
-    enum Direction
+    public enum Direction
     {
         Left,
         Up,

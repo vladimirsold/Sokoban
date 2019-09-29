@@ -9,12 +9,12 @@ using Sokoban;
 using Sokoban.Controller;
 using Sokoban.Model;
 
-namespace View.Scenes
+namespace Sokoban.View.Scenes
 {
     class GameScene : IScene
     {
 
-        private readonly Field field;
+        private  Field field;
         private readonly GameModel gameModel;
         public readonly GameProcessUIController uiController;
         private readonly Dictionary<TextureID, Texture2D> textureBlocks;
@@ -22,17 +22,19 @@ namespace View.Scenes
         private readonly GraphicsDeviceManager graphics;
         private readonly KeyboardController keyboardController = new KeyboardController();
 
-        public GameScene(GraphicsDeviceManager graphics, LoadedContent content)
+        public GameScene(GraphicsDeviceManager graphics, LoadedContent content, GameModel gameModel)
         {
 
             textureBlocks = content.BlocksTextures;
             font = content.Font;
             this.graphics = graphics;
-            gameModel = new GameModel();
+            this.gameModel = gameModel;
             uiController = new GameProcessUIController(gameModel);
-            uiController.LoadLevel(new Level(Series.ThinkingRabbitOriginal, "Go gack"));
-            field = new Field(gameModel, textureBlocks, graphics);
-            gameModel.LevelCompleted += field.Update;             
+            gameModel.LevelLoaded += () =>
+            {
+                field = new Field(gameModel.GetAllGameObjects(), gameModel.SizeOfStoreroom, textureBlocks);
+                field.Init(new Point(40, 60), new Point(graphics.PreferredBackBufferWidth - 80, graphics.PreferredBackBufferHeight - 120));
+            };
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -46,7 +48,6 @@ namespace View.Scenes
 
         public void Update(GameTime gameTime)
         {
-            gameModel.Update();
             keyboardController.KeyPressHandler(gameModel);
         }
     }
