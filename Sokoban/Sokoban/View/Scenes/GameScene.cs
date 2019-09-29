@@ -16,7 +16,7 @@ namespace Sokoban.View.Scenes
 
         private  Field field;
         private readonly GameModel gameModel;
-        public readonly GameProcessUIController uiController;
+        //public readonly GameProcessUIController uiController;
         private readonly Dictionary<TextureID, Texture2D> textureBlocks;
         private readonly SpriteFont font;
         private readonly GraphicsDeviceManager graphics;
@@ -29,7 +29,6 @@ namespace Sokoban.View.Scenes
             font = content.Font;
             this.graphics = graphics;
             this.gameModel = gameModel;
-            uiController = new GameProcessUIController(gameModel);
             gameModel.LevelLoaded += () =>
             {
                 field = new Field(gameModel.GetAllGameObjects(), gameModel.SizeOfStoreroom, textureBlocks);

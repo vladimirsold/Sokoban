@@ -16,7 +16,7 @@ namespace Sokoban.View.Scenes
         private readonly LoadedContent content;
         private readonly GameModel gameModel;
         private Panel seriesPanel;
-        Field priewLevel;
+        Field previewLevel;
         GraphicsDeviceManager graphics;
         public LevelSelect(GameModel gameModel, GraphicsDeviceManager graphics, LoadedContent content)
         {
@@ -75,10 +75,10 @@ namespace Sokoban.View.Scenes
                 data.UnionWith(loader.CellsForBoxes);
                 data.Add(loader.Storekeeper);
 
-                priewLevel = new Field(data, loader.Size, content.BlocksTextures);
+                previewLevel = new Field(data, loader.Size, content.BlocksTextures);
                 var startPoint = new Point(graphics.PreferredBackBufferWidth / 2 - 100, graphics.PreferredBackBufferHeight / 4);
                 var sizeOfField = new Point(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2);
-                priewLevel.Init(startPoint, sizeOfField);
+                previewLevel.Init(startPoint, sizeOfField);
             };
             levelPanel.AddChild(list);
             AddButton(levelPanel, "Start",
@@ -90,7 +90,7 @@ namespace Sokoban.View.Scenes
                     var levelName = list.SelectedValue;
                     gameModel.LoadLevel(new Level(serieName, levelName));
                     GameStart?.Invoke();
-                    priewLevel = null;
+                    previewLevel = null;
                 });
             levelPanel.AddChild(new HorizontalLine());
             AddButton(levelPanel, "Back",
@@ -98,7 +98,7 @@ namespace Sokoban.View.Scenes
              {
                  seriesPanel.Visible = true;
                  levelPanel.Visible = false;
-                 priewLevel = null;
+                 previewLevel = null;
              });
         }
 
@@ -122,7 +122,7 @@ namespace Sokoban.View.Scenes
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            priewLevel?.Draw(spriteBatch);
+            previewLevel?.Draw(spriteBatch);
         }
     }
 }
