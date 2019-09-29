@@ -2,7 +2,7 @@
 Pet project
  
  Учебный проект для отработки навыков программирования.
- Работает на [Monogame](http://www.monogame.net/)
+ Работает на [Monogame](http://www.monogame.net/) Для UI использован [GeonBit.UI](https://github.com/RonenNess/GeonBit.UI)
   
  Что реализовано:
   - Собственно сам игровой процесс
