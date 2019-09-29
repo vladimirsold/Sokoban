@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Sokoban;
 using Microsoft.Xna.Framework.Media;
 
-namespace View
+namespace Sokoban.View
 {
     /// <summary>
     /// Contains all of downloadable content

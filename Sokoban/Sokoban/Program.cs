@@ -1,5 +1,5 @@
 ﻿using System;
-using View;
+using Sokoban.View;
 
 namespace Sokoban
 {

@@ -1,43 +1,43 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Sokoban.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sokoban;
-using Sokoban.Model;
 
-namespace View
+namespace Sokoban.View.Scenes
 {
     class Field
     {
         private int blockSize;
-        public  Point StartPointDraw { get; private set; }
+        public Point StartPointDraw { get; private set; }
         private readonly Dictionary<TextureID, Texture2D> textureBlocks;
-        private readonly GameModel gameProcess;
-        private readonly GraphicsDeviceManager graphics;
-        public Field(GameModel gameProcess, Dictionary<TextureID, Texture2D> textureBlocks, GraphicsDeviceManager graphics)
+        private readonly IEnumerable<GameObject> gameObjects;
+
+        private Point sizeOfStoreroom;
+
+        public Field(IEnumerable<GameObject> gameObjects, Point sizeOfStoreroom, Dictionary<TextureID, Texture2D> textureBlocks)
         {
            
             this.textureBlocks = textureBlocks;
-            this.gameProcess = gameProcess;
-            this.graphics = graphics;
-            Update();
+            this.gameObjects = gameObjects;
+            this.sizeOfStoreroom = sizeOfStoreroom;
         }
 
-        public void Update()
+        public void Init(Point startPointDraw, Point sizeOfField)
         {
             var defaultBlockSize = Settings.GetSettings().DefaultBlockSize;
-            var possibleSizeBlock = new int[]{graphics.PreferredBackBufferWidth / gameProcess.FieldSize.X,
-                graphics.PreferredBackBufferHeight / (gameProcess.FieldSize.Y + 1), defaultBlockSize};
+            var possibleSizeBlock = new int[]{sizeOfField.X / sizeOfStoreroom.X,
+                sizeOfField.Y / (sizeOfStoreroom.Y + 1), defaultBlockSize};
             blockSize = possibleSizeBlock.Min();
-            var pointX = (graphics.PreferredBackBufferWidth - gameProcess.FieldSize.X * blockSize) / 2;
-            var pointY = (graphics.PreferredBackBufferHeight - gameProcess.FieldSize.Y * blockSize) / 2;
-            StartPointDraw = new Point(pointX, pointY);
+            var x = (sizeOfField.X - sizeOfStoreroom.X * blockSize) / 2 + startPointDraw.X;
+            var y = (sizeOfField.Y - sizeOfStoreroom.Y * blockSize) / 2 + startPointDraw.Y;
+            StartPointDraw = new Point(x, y);
         }
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            foreach(var gameObject in gameProcess.GetAllGameObjects())
+            foreach(var gameObject in gameObjects)
             {
                 var rectangle = GetRectangleMatchingGameObject(gameObject);
                 var texture = GetTextureMatchingGameObject(gameObject);
@@ -72,14 +72,14 @@ namespace View
             }
             if(gameObject is CellForBox cellForBox)
             {
-                return cellForBox.IsEmpty ? textureBlocks[TextureID.EmptyCell] : textureBlocks[TextureID.CellWithBox]; 
+                return cellForBox.IsEmpty ? textureBlocks[TextureID.EmptyCell] : textureBlocks[TextureID.CellWithBox];
             }
             throw new ArgumentException();
         }
-  
+
         Rectangle GetRectangleMatchingGameObject(GameObject gameObject)
         {
-            return new Rectangle(gameObject.X * blockSize + StartPointDraw.X, gameObject.Y * blockSize + StartPointDraw.Y, blockSize, blockSize);
+            return new Rectangle(gameObject.Coordinates.X * blockSize + StartPointDraw.X, gameObject.Coordinates.Y * blockSize + StartPointDraw.Y, blockSize, blockSize);
         }
     }
 }

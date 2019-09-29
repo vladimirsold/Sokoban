@@ -2,8 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using GeonBit.UI;
 using Microsoft.Xna.Framework.Media;
+using Sokoban.View.Scenes;
 
-namespace View
+namespace Sokoban.View
 {
     /// <summary>
     /// This is the main type for your game.
@@ -57,8 +58,8 @@ namespace View
             loadedContent = new LoadedContent(Content);
             scenes = new SceneManager(Content, loadedContent, graphics);
             scenes.Exit += Exit;
-            MediaPlayer.Play(loadedContent.BackgroundMusic);
-            MediaPlayer.IsRepeating = true;
+            //MediaPlayer.Play(loadedContent.BackgroundMusic);
+            //MediaPlayer.IsRepeating = true;
         }
 
         /// <summary>

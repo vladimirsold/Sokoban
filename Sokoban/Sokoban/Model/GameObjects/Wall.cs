@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+
 
 namespace Sokoban.Model
 {
-    class Wall : CollisionObject
-    {
-        public Wall(int x, int y) : base(x, y) { }
+    public class Wall : GameObject
+    {   
+        public Wall(Point coords) : base(coords)
+        {
+
+        }
     }
 }

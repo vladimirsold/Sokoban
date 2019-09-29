@@ -1,78 +1,85 @@
-﻿
-using System;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Xml;
 
 namespace Sokoban.Model
 {
-    class LevelLoader
-    {     
-        public static (HashSet<Wall>, HashSet<Box>, HashSet<CellForBox>, Storekeeper, Vector) LoadLevel(Level level)
+    public class LevelLoader
+    {
+        public Storekeeper Storekeeper { get; private set; }
+        public Point Size { get; private set; }
+        public HashSet<CellForBox> CellsForBoxes { get; private set; }
+        public HashSet<Box> Boxes { get; private set; }
+        public HashSet<Wall> Walls { get; private set; }
+        public void Load(Level level)
         {
-            var walls = new HashSet<Wall>();
-            var boxes = new HashSet<Box>();
-            var cells = new HashSet<CellForBox>();
-            Vector fieldSize = null; 
-            Storekeeper storekeeper = null;
-            StreamReader fileReader = LoadSeries(level.Series);
-            using(fileReader)
-            {
-                
-                while(!fileReader.ReadLine().Contains($"Maze: {level.NumberOfLevel}"))
-                {
-                    ;
-                }
-
-                fileReader.ReadLine();
-                int x = int.Parse(fileReader.ReadLine().Split(' ')[2]);
-                int y = int.Parse(fileReader.ReadLine().Split(' ')[2]);
-                fieldSize = new Vector(x, y);
-                fileReader.ReadLine();
-                fileReader.ReadLine();
-                fileReader.ReadLine();
-                for(int i = 0; i < y; i++)
-                {
-                    string read = fileReader.ReadLine();
-                    for(int j = 0; j < read.Length; j++)
-                    {
-                        switch(read[j])
-                        {
-                            case 'X':
-                                walls.Add(new Wall(j, i));
-                                break;
-                            case '@':
-                                storekeeper = new Storekeeper(j, i);
-                                break;
-                            case '*':
-                                boxes.Add(new Box(j, i));
-                                break;
-                            case '.':
-                                cells.Add(new CellForBox(j, i));
-                                break;
-                            case '&':
-                                cells.Add(new CellForBox(j, i));
-                                boxes.Add(new Box(j, i));
-                                break;
-                        }
-                    }
-                }
-            }
-            return (walls, boxes, cells, storekeeper, fieldSize);
+            CellsForBoxes = new HashSet<CellForBox>();
+            Boxes = new HashSet<Box>();
+            Walls = new HashSet<Wall>();
+            XmlDocument serie = new XmlDocument();
+            serie.Load(GetPathToSerie(level.SeriesName));
+            XmlNode nodeOfLevel = serie.SelectSingleNode($"//Level[@Id ='{level.Name}']");
+            CreateGameObjectsFromNode(nodeOfLevel);
         }
 
-        static StreamReader LoadSeries(Series series)
+        string GetPathToSerie(string serie)
         {
-            switch(series)
+            string path = Directory.GetDirectoryRoot(".");
+            var series = new DirectoryInfo(path).GetDirectories().Single(dir => dir.Name.Contains("Serie"));
+            var files = series.GetFiles();
+            var file = files.Single(x => x.Name.Contains(serie));
+            return file.FullName;
+        }
+
+        private void CreateGameObjectsFromNode(XmlNode nodeOfLevel)
+        {
+            SetSizeFromNode(nodeOfLevel);
+            for(var i = 0; i < Size.X; i++)
             {
-                default:  return new StreamReader("C:\\Users\\Владимир\\source\\repos\\vladimirsold\\Sokoban\\Sokoban\\Sokoban\\Content\\ThinkingRabbitOriginal.txt");
-                case Series.Test:
-                    return new StreamReader("C:\\Users\\Владимир\\source\\repos\\vladimirsold\\Sokoban\\Sokoban\\Sokoban\\Content\\Test.txt");
+                var str = nodeOfLevel.ChildNodes[i].InnerText;
+                for(var j = 0; j < str.Length; j++)
+                {
+                    ParseGameObjects(str[j], new Point(i, j));
+                }
             }
         }
 
-        public static Level NextLevel(Level level)
+        private void ParseGameObjects(char symbol, Point coords)
         {
-            return new Level(level.Series, level.NumberOfLevel + 1);
+            switch(symbol)
+            {
+                case '#':
+                    Walls.Add(new Wall(coords));
+                    break;
+                case '$':
+                    Boxes.Add(new Box(coords));
+                    break;
+                case '*':
+                    Boxes.Add(new Box(coords));
+                    var cell = new CellForBox(coords);
+                    cell.IsEmpty = false;
+                    CellsForBoxes.Add(cell);
+                    break;
+                case '.':
+                    CellsForBoxes.Add(new CellForBox(coords));
+                    break;
+                case '+':
+                    CellsForBoxes.Add(new CellForBox(coords));
+                    Storekeeper = new Storekeeper(coords);
+                    break;
+                case '@':
+                    Storekeeper = new Storekeeper(coords);
+                    break;
+            }
+        }
+
+        private void SetSizeFromNode(XmlNode nodeOfLevel)
+        {
+            int width = int.Parse(nodeOfLevel.Attributes["Width"].Value);
+            int height = int.Parse(nodeOfLevel.Attributes["Height"].Value);
+            Size = new Point(height, width);
         }
     }
 }

@@ -3,21 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace Sokoban.Model
 {
-    class CellForBox : GameObject
+    public class CellForBox : GameObject
     {
-        public bool IsEmpty { get; private set; }
-        public CellForBox(int x, int y) : base(x, y)
+
+        public bool IsEmpty { get; set; } 
+        public CellForBox(Point coords ) : base(coords)
         {
-            
+            IsEmpty = true;
         }
 
-        public void SetState(bool state)
-        {
-            IsEmpty = state;
-        }
     }
 }

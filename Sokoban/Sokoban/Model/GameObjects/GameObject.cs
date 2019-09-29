@@ -1,22 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sokoban.Model
 {
-    abstract class GameObject
+    public abstract class GameObject
     {
-        public int X { get; protected set; }
-        public int Y { get; protected set; }
+        public Point Coordinates { get; protected set; }
 
-        public GameObject(int x, int y)
+        protected GameObject(Point coords)
         {
-            X = x;
-            Y = y; 
+            Coordinates = coords;
         }
     }
 }

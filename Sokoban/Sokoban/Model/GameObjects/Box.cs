@@ -3,27 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Sokoban.Model
 {
-    class Box : CollisionObject, IMovable
+    public class Box : GameObject
     {
-        public Box(int x, int y) : base(x, y) { }
-
-        public void Move(Direction direction)
+        public Box(Point coords) : base(coords)
         {
-            switch(direction)
-            {
-                case Direction.Left: --X;
-                    break;
-                case Direction.Right: ++X;
-                    break;
-                case Direction.Up: --Y;
-                    break;
-                case Direction.Down: ++Y;
-                    break;
-            }
+
+        }
+
+        internal void Move(Point coordinates)
+        {
+            Coordinates = coordinates;
         }
     }
 }
