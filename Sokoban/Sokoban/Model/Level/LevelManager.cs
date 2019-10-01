@@ -14,15 +14,11 @@ namespace Sokoban.Model
         
         public LevelManager()
         {
-            string path = Directory.GetDirectoryRoot(".");
-            series = new DirectoryInfo(path).GetDirectories().Single(dir => dir.Name.Contains("Serie"));
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            series = new DirectoryInfo(path).GetDirectories().Single(dir => dir.Name.Contains("Resources"));
             SeriesInfo = LoadSeries(series);
         }
-  
-        public Level GetLevel(string serie, string levelName)
-        { 
-            return new Level(serie, levelName);
-        }
+
         private Dictionary<string, List<string>> LoadSeries(DirectoryInfo series)
         {
             var seriesInfo = new Dictionary<string, List<string>>();
@@ -44,11 +40,6 @@ namespace Sokoban.Model
                 levelNames.Add(level.Attributes["Id"].Value);
             }
             return levelNames;
-        }
-
-        internal static Level NextLevel(Level currentLevel)
-        {
-            throw new NotImplementedException();
         }
     }
 }

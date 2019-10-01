@@ -18,7 +18,7 @@ namespace Sokoban.View.Scenes
 
         public Field(IEnumerable<GameObject> gameObjects, Point sizeOfStoreroom, Dictionary<TextureID, Texture2D> textureBlocks)
         {
-           
+
             this.textureBlocks = textureBlocks;
             this.gameObjects = gameObjects;
             this.sizeOfStoreroom = sizeOfStoreroom;

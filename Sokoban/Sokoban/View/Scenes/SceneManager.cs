@@ -54,7 +54,7 @@ namespace Sokoban.View.Scenes
             pause.MainMenuButtonPressed += mainMenu.Call;
             pause.RestartButtonPressed += () =>
             {
-                gameScene.uiController.Restart();
+                gameModel.Restart();
                 currentScene = gameScene;
             };
 

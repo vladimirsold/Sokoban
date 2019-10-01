@@ -1,7 +1,6 @@
 ﻿using GeonBit.UI;
 using GeonBit.UI.Entities;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -25,7 +24,6 @@ namespace Sokoban.View.Scenes
             {
                 OnClick = (Entity btn) =>
                 {
-                    //UserInterface.Active.RemoveEntity(menuPanel);
                     menuPanel.Visible = false;
                     StartButtonPressed?.Invoke();
                 }

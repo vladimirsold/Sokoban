@@ -1,14 +1,10 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using Sokoban;
 using Microsoft.Xna.Framework.Media;
 
 namespace Sokoban.View
 {
-    /// <summary>
-    /// Contains all of downloadable content
-    /// </summary>
     class LoadedContent
     {
         public readonly Dictionary<TextureID, Texture2D> BlocksTextures;
