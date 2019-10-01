@@ -41,10 +41,5 @@ namespace Sokoban.Model
             }
             return levelNames;
         }
-
-        internal static Level NextLevel(Level currentLevel)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

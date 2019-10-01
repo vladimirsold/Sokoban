@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Sokoban.Model
 {
@@ -28,9 +27,8 @@ namespace Sokoban.Model
             }
         }
 
-        public LevelManager LevelManager => levelManager;
+        public LevelManager LevelManager { get; }
 
-        private readonly LevelManager levelManager;
         private DateTime begin;
         private readonly Storeroom storeroom;
 
@@ -41,7 +39,7 @@ namespace Sokoban.Model
             {
                 LevelCompleted();
             };
-            levelManager = new LevelManager();
+            LevelManager = new LevelManager();
         }
 
         public void LoadLevel(Level level)
@@ -55,7 +53,7 @@ namespace Sokoban.Model
 
         public void Restart()
         {
-            LoadLevel(CurrentLevel);  
+            LoadLevel(CurrentLevel);
         }
 
 
