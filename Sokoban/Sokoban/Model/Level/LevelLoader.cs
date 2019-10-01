@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,8 +27,8 @@ namespace Sokoban.Model
 
         string GetPathToSerie(string serie)
         {
-            string path = Directory.GetDirectoryRoot(".");
-            var series = new DirectoryInfo(path).GetDirectories().Single(dir => dir.Name.Contains("Serie"));
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            var series = new DirectoryInfo(path).GetDirectories().Single(dir => dir.Name.Contains("Resources"));
             var files = series.GetFiles();
             var file = files.Single(x => x.Name.Contains(serie));
             return file.FullName;
