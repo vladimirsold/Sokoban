@@ -20,7 +20,7 @@ namespace Sokoban.Model
             Boxes = new HashSet<Box>();
             Walls = new HashSet<Wall>();
             XmlDocument serie = new XmlDocument();
-            serie.Load(level.PathToSerie);
+            serie.Load(level.SeriesName);
             XmlNode nodeOfLevel = serie.SelectSingleNode($"//Level[@Id ='{level.Name}']");
             CreateGameObjectsFromNode(nodeOfLevel);
         }
