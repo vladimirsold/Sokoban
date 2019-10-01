@@ -56,17 +56,17 @@ namespace Sokoban.View.Scenes
 
         private void AddLevelsList(Panel levelPanel, KeyValuePair<string, List<string>> serie)
         {
-            SelectList list = new SelectList(new Vector2(0, 300));
+            SelectList levelsList = new SelectList(new Vector2(0, 300));
             foreach(var level in serie.Value)
             {
-                list.AddItem(level);
+                levelsList.AddItem(level);
             }
 
-            list.OnValueChange = (Entity entity) =>
+            levelsList.OnValueChange = (Entity entity) =>
             {
                 var loader = new LevelLoader();
                 var serieName = serie.Key;
-                var levelName = list.SelectedValue;
+                var levelName = levelsList.SelectedValue;
                 loader.Load(new Level(serieName, levelName));
                 var data = new HashSet<GameObject>();
                 data.UnionWith(loader.Walls);
@@ -79,16 +79,18 @@ namespace Sokoban.View.Scenes
                 var sizeOfField = new Point(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2);
                 previewLevel.Init(startPoint, sizeOfField);
             };
-            levelPanel.AddChild(list);
+            levelPanel.AddChild(levelsList);
             AddButton(levelPanel, "Start",
                 (Entity btn) =>
                 {
-                    if(list.SelectedValue == null)
+                    if(levelsList.SelectedValue == null)
+                    {
                         return;
+                    }
                     seriesPanel.Visible = false;
                     levelPanel.Visible = false;
                     var serieName = serie.Key;
-                    var levelName = list.SelectedValue;
+                    var levelName = levelsList.SelectedValue;
                     gameModel.LoadLevel(new Level(serieName, levelName));
                     GameStart?.Invoke();
                     previewLevel = null;
