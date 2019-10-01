@@ -18,11 +18,7 @@ namespace Sokoban.Model
             series = new DirectoryInfo(path).GetDirectories().Single(dir => dir.Name.Contains("Serie"));
             SeriesInfo = LoadSeries(series);
         }
-  
-        public Level GetLevel(string serie, string levelName)
-        { 
-            return new Level(serie, levelName);
-        }
+
         private Dictionary<string, List<string>> LoadSeries(DirectoryInfo series)
         {
             var seriesInfo = new Dictionary<string, List<string>>();

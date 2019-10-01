@@ -13,24 +13,16 @@ namespace Sokoban.Model
         public HashSet<CellForBox> CellsForBoxes { get; private set; }
         public HashSet<Box> Boxes { get; private set; }
         public HashSet<Wall> Walls { get; private set; }
+
         public void Load(Level level)
         {
             CellsForBoxes = new HashSet<CellForBox>();
             Boxes = new HashSet<Box>();
             Walls = new HashSet<Wall>();
             XmlDocument serie = new XmlDocument();
-            serie.Load(GetPathToSerie(level.SeriesName));
+            serie.Load(level.PathToSerie);
             XmlNode nodeOfLevel = serie.SelectSingleNode($"//Level[@Id ='{level.Name}']");
             CreateGameObjectsFromNode(nodeOfLevel);
-        }
-
-        string GetPathToSerie(string serie)
-        {
-            string path = Directory.GetDirectoryRoot(".");
-            var series = new DirectoryInfo(path).GetDirectories().Single(dir => dir.Name.Contains("Serie"));
-            var files = series.GetFiles();
-            var file = files.Single(x => x.Name.Contains(serie));
-            return file.FullName;
         }
 
         private void CreateGameObjectsFromNode(XmlNode nodeOfLevel)
