@@ -83,6 +83,8 @@ namespace Sokoban.View.Scenes
             AddButton(levelPanel, "Start",
                 (Entity btn) =>
                 {
+                    if(list.SelectedValue == null)
+                        return;
                     seriesPanel.Visible = false;
                     levelPanel.Visible = false;
                     var serieName = serie.Key;

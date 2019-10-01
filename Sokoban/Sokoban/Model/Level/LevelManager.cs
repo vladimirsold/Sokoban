@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Xml;
 
 namespace Sokoban.Model
@@ -22,6 +23,7 @@ namespace Sokoban.Model
         private Dictionary<string, List<string>> LoadSeries(DirectoryInfo series)
         {
             var seriesInfo = new Dictionary<string, List<string>>();
+            Thread.Sleep(5000);
             foreach(var serie in series.GetFiles())
             {
                 var name = Path.GetFileNameWithoutExtension(serie.FullName);
