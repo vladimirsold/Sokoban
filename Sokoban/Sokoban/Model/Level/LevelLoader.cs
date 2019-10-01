@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,16 +14,24 @@ namespace Sokoban.Model
         public HashSet<CellForBox> CellsForBoxes { get; private set; }
         public HashSet<Box> Boxes { get; private set; }
         public HashSet<Wall> Walls { get; private set; }
-
         public void Load(Level level)
         {
             CellsForBoxes = new HashSet<CellForBox>();
             Boxes = new HashSet<Box>();
             Walls = new HashSet<Wall>();
             XmlDocument serie = new XmlDocument();
-            serie.Load(level.SeriesName);
+            serie.Load(GetPathToSerie(level.SeriesName));
             XmlNode nodeOfLevel = serie.SelectSingleNode($"//Level[@Id ='{level.Name}']");
             CreateGameObjectsFromNode(nodeOfLevel);
+        }
+
+        string GetPathToSerie(string serie)
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            var series = new DirectoryInfo(path).GetDirectories().Single(dir => dir.Name.Contains("Resources"));
+            var files = series.GetFiles();
+            var file = files.Single(x => x.Name.Contains(serie));
+            return file.FullName;
         }
 
         private void CreateGameObjectsFromNode(XmlNode nodeOfLevel)

@@ -14,8 +14,8 @@ namespace Sokoban.Model
         
         public LevelManager()
         {
-            string path = Directory.GetDirectoryRoot(".");
-            series = new DirectoryInfo(path).GetDirectories().Single(dir => dir.Name.Contains("Serie"));
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            series = new DirectoryInfo(path).GetDirectories().Single(dir => dir.Name.Contains("Resources"));
             SeriesInfo = LoadSeries(series);
         }
 
