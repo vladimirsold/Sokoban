@@ -2,8 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Sokoban.Model
 {
@@ -20,7 +19,7 @@ namespace Sokoban.Model
         {
             this.levelLoader = levelLoader;
         }
-        
+
         public void LoadLevel(Level level)
         {
             levelLoader.Load(level);
@@ -33,7 +32,7 @@ namespace Sokoban.Model
         public void TryStorekeeperMove(Direction direction)
         {
             storekeeper.State = direction;
-            Point  coordsToMove = GetCoordsToMove(storekeeper.Coordinates,direction);
+            Point coordsToMove = GetCoordsToMove(storekeeper.Coordinates, direction);
             if(IsCollision(walls, coordsToMove))
             {
                 return;
@@ -55,7 +54,7 @@ namespace Sokoban.Model
 
         private void SetStateOfCellForBoxes()
         {
-           foreach(var cell in cellsForBoxes)
+            foreach(var cell in cellsForBoxes)
             {
                 cell.IsEmpty = !boxes.Any(box => box.Coordinates == cell.Coordinates);
             }

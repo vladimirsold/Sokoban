@@ -83,7 +83,6 @@
     <Compile Include="View\SokobanGame.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="View\TextureID.cs" />
-    <Compile Include="Model\Vector.cs" />
     <Compile Include="Model\GameObjects\Wall.cs" />
   </ItemGroup>
   <ItemGroup>
