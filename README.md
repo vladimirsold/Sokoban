@@ -17,6 +17,7 @@ Pet project
   - Ведение статистики по уровням 
   - Таблица лидеров
   - Возможность отменить последний ход
+  - Асинхронная загрузка уровней
  
 ![](https://github.com/vladimirsold/Sokoban/blob/master/sokoban1.png)
 ![](https://github.com/vladimirsold/Sokoban/blob/master/sokoban2.png)
