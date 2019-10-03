@@ -1,5 +1,5 @@
 # Sokoban
-Pet project
+Pet project.
  
  Учебный проект для отработки навыков программирования.
  Сокобан на [Wiki](https://ru.wikipedia.org/wiki/Sokoban).
