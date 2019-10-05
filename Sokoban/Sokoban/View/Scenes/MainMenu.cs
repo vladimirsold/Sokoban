@@ -29,14 +29,14 @@ namespace Sokoban.View.Scenes
                 }
             };
             menuPanel.AddChild(startButton);
-            var settingsButton = new Button("Settings")
-            {
-                OnClick = (Entity btn) =>
-                {
-                    menuPanel.Visible = false;
-                }
-            };
-            menuPanel.AddChild(settingsButton);
+            //var settingsButton = new Button("Settings")
+            //{
+            //    OnClick = (Entity btn) =>
+            //    {
+            //        menuPanel.Visible = false;
+            //    }
+            //};
+            //menuPanel.AddChild(settingsButton);
 
             var exitButton = new Button("Exit")
             {

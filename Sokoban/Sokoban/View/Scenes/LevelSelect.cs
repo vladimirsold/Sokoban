@@ -16,7 +16,7 @@ namespace Sokoban.View.Scenes
         private readonly GameModel gameModel;
         private Panel seriesPanel;
         Field previewLevel;
-        GraphicsDeviceManager graphics;
+        readonly GraphicsDeviceManager graphics;
         public LevelSelect(GameModel gameModel, GraphicsDeviceManager graphics, LoadedContent content)
         {
             this.content = content;

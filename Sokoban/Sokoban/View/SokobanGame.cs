@@ -6,11 +6,11 @@ namespace Sokoban.View
 { 
     public class SokobanGame : Game
     {
-        GraphicsDeviceManager graphics;
+        readonly GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         LoadedContent loadedContent;
-        Settings settings;
+        readonly Settings settings;
         SceneManager scenes;
 
 
@@ -50,6 +50,7 @@ namespace Sokoban.View
             
             loadedContent = new LoadedContent(Content);
             scenes = new SceneManager(Content, loadedContent, graphics);
+
             scenes.Exit += Exit;
             //MediaPlayer.Play(loadedContent.BackgroundMusic);
             //MediaPlayer.IsRepeating = true;

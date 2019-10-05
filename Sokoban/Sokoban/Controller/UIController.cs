@@ -5,7 +5,7 @@ namespace Sokoban.Controller
     
     class GameProcessUIController
     {
-        GameModel gameModel; 
+        readonly GameModel gameModel; 
         public GameProcessUIController(GameModel gameModel)
         {
             this.gameModel = gameModel; 
