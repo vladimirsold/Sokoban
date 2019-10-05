@@ -25,7 +25,7 @@ namespace Sokoban.View.Scenes
 
         public SceneManager(ContentManager contentManager, LoadedContent loadedContent, GraphicsDeviceManager graphics)
         {
-            UserInterface.Initialize(contentManager, BuiltinThemes.editor);
+            UserInterface.Initialize(contentManager, BuiltinThemes.hd);
             gameModel = new GameModel();
             this.graphics = graphics;
             pause = new Pause();
