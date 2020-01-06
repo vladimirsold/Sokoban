@@ -1,7 +1,6 @@
 # Sokoban
 Pet project
  
- Учебный проект для отработки навыков программирования.
  Сокобан на [Wiki](https://ru.wikipedia.org/wiki/Sokoban).
  
  Работает на [Monogame](http://www.monogame.net/) Для UI использован [GeonBit.UI](https://github.com/RonenNess/GeonBit.UI)
