@@ -13,12 +13,7 @@ Pet project
   - Возможность загружать уровни из xml
   - Выбор уровня и его превью
  
- Что в планах:
-  - Возможность создания отдельной учетной записи игрока
-  - Ведение статистики по уровням 
-  - Таблица лидеров
-  - Возможность отменить последний ход
-  - Асинхронная загрузка уровней
+ 
  
 ![](https://github.com/vladimirsold/Sokoban/blob/master/sokoban1.png)
 ![](https://github.com/vladimirsold/Sokoban/blob/master/sokoban2.png)
